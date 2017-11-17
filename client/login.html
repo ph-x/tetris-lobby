@@ -1,0 +1,38 @@
+{% extends "auth_base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block page_content %}
+<div class="page-header">
+    <h1>Login</h1>
+</div>
+<div class="login-form">
+    <form class="form" method="POST">
+	    {{ form.hidden_tag() }}
+	    {{ form.username.label }}{{ form.username() }}
+		    {% if form.username.errors %}
+		  		<ul class="errors">
+		  			{% for error in form.username.errors %}
+		  				<li>{{ error }}</li>
+		  			{% endfor %}
+		  		</ul>
+		 	{% endif %}
+	    {{ form.password.label }}{{ form.password(class="example_pwdclass") }}
+	     {% if form.password.errors %}
+		  		<ul class="errors">
+		  			{% for error in form.password.errors %}
+		  				<li>{{ error }}</li>
+		  			{% endfor %}
+		  		</ul>
+		 	{% endif %}
+	    {{ form.remember_me() }}
+	    {{ form.submit() }}
+	</form>
+</div>
+<p>
+    New user?
+    <a href="{{ url_for('auth.register')}}">
+        Click here to register
+    </a>
+</p>
+{% endblock %}
