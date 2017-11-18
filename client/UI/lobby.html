@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Tetris Game Lobby</title>
+<link rel="stylesheet" title="text/css" href="lobby.css" />
+</head>
+
+<body>
+
+<div id="left">
+	<ul id="user-info">
+		<li>C.C</li><br>
+		<li>100</li>
+	</ul>
+
+	<ul id="players"></ul>
+</div>
+
+<div id="right">
+<ul id="rooms"></ul>
+
+<div id="chat-area">
+	<ul id="chat-msgs"></ul>
+	<input type="text" id="chat-box"></input>
+	<button type="button" id="chat-submit">submit</button>
+</div>
+</div>
+
+<script src="/jquery-3.2.1.min.js"></script>
+<script src="/socket.io.js"></script>
+<script src="/main.js"></script>
+
+</body>
+</html>
+
+
