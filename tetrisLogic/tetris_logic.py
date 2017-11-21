@@ -1,16 +1,13 @@
-from tetris_config import *
-import numpy as np
-from random import randint
 import copy
-import pygame
+from random import randint
+import numpy as np
+from flask_socketio import emit
+from tetrisLogic.tetris_config import *
 
 
+# TODO: need to indicate the roomID
 def draw_picture(picture):
-    print(picture)
-
-
-def get_instruction():
-    return input('enter: ')
+    emit('game', str(picture.tolist()))
 
 
 class Canvas:
@@ -93,8 +90,6 @@ class Tetris:
     def __init__(self):
         self.crrt = Block()
         self.canvas = Canvas()
-        pygame.init()
-        pygame.time.set_timer(pygame.USEREVENT + 1, 2000)
 
     def draw(self):
         if self.canvas.draw(self.crrt) is False:
@@ -103,29 +98,22 @@ class Tetris:
                 self.canvas.update(self.crrt)
                 self.crrt = Block()
             elif signal is False:
-                exit()
+                raise ValueError
             self.draw()
 
-    def run(self):
-        self.draw()
-        while True:
-            for event in pygame.event.get():
-                if event.type == pygame.USEREVENT + 1:
-                    self.crrt.drop()
-                    self.draw()
-                elif event.type == pygame.QUIT:
-                    exit()
-                elif event.type == pygame.KEYDOWN:
-                    keyname = pygame.key.name(event.key)
-                    if keyname == "up":
-                        self.crrt.rotate()
-                    elif keyname == "left":
-                        self.crrt.left_shift()
-                    elif keyname == "right":
-                        self.crrt.right_shift()
-                    elif keyname == "down":
-                        self.crrt.drop()
-                    self.draw()
+    def run(self, instruction):
+        if instruction == "left":
+            self.crrt.left_shift()
+            self.draw()
+        elif instruction == "right":
+            self.crrt.right_shift()
+            self.draw()
+        elif instruction == "down":
+            self.crrt.drop()
+            self.draw()
+        elif instruction == "up":
+            self.crrt.rotate()
+            self.draw()
 
 
 if __name__ == '__main__':
