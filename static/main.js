@@ -5,11 +5,6 @@ startButton.onclick = function () {
     socket.emit("start");
 };
 
-setInterval(selfDrop, 2000);
-function selfDrop() {
-    socket.emit("operate", "down");
-}
-
 $(document).keydown(function(e) {
     if (event.defaultPrevented) {
     return;                         // do nothing if the event was already processed

@@ -1,5 +1,5 @@
-from flask import Flask, url_for, send_from_directory
-from flask_socketio import SocketIO, join_room, leave_room, send, emit
+from flask import Flask, send_from_directory
+from flask_socketio import SocketIO
 from tetrisLogic import tetris_logic
 
 
@@ -16,17 +16,12 @@ def index():
 @socketio.on('start', namespace='/game')
 def start_game():
     newgame = tetris_logic.Tetris()
-    newgame.draw()
 
     @socketio.on('operate', namespace='/game')
-    def run_game(instruction):
+    def operate_game(instruction):
         nonlocal newgame
-        try:
-            if newgame is not None:
-                newgame.run(instruction=instruction)
-        except ValueError:
-            emit('gameover', "game over")
-            newgame = None
+        newgame.operate(instruction=instruction)
+
 
 if __name__ == '__main__':
     socketio.run(app)

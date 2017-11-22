@@ -1,13 +1,10 @@
 import copy
 from random import randint
 import numpy as np
-from flask_socketio import emit
+from threading import Timer
+from collections import deque
 from tetrisLogic.tetris_config import *
-
-
-# TODO: need to indicate the roomID
-def draw_picture(picture):
-    emit('game', str(picture.tolist()))
+import threading
 
 
 class Canvas:
@@ -25,12 +22,11 @@ class Canvas:
             if np.count_nonzero(self.board[x:x + row, y:y + col] & block.tile) == 0:
                 picture = copy.deepcopy(self.board)
                 picture[x:x + row, y:y + col] += block.tile
-                draw_picture(picture)
-                return True
+                return picture
             else:
-                return False
+                return None
         except (IndexError, ValueError):
-            return False
+            return None
 
     def update(self, block):
         row = len(block.tile)
@@ -50,26 +46,23 @@ class Canvas:
 class Block:
     def __init__(self):
         self.tile = tilib[randint(0, 6)]
-        # self.tile = tilib[0]
         self.xoffset = 0
         self.yoffset = width // 3
         self.lastaction = 'empty'
 
-    def rotate(self):
-        self.tile = np.rot90(self.tile)
-        self.lastaction = 'rotate'
-
-    def right_shift(self):
-        self.yoffset += 1
-        self.lastaction = 'rshift'
-
-    def left_shift(self):
-        self.yoffset -= 1
-        self.lastaction = 'lshift'
-
-    def drop(self):
-        self.xoffset += 1
-        self.lastaction = 'drop'
+    def operate(self, instruction):
+        if instruction == "left":
+            self.yoffset -= 1
+            self.lastaction = 'lshift'
+        elif instruction == "right":
+            self.yoffset += 1
+            self.lastaction = 'rshift'
+        elif instruction == "down":
+            self.xoffset += 1
+            self.lastaction = 'drop'
+        elif instruction == "up":
+            self.tile = np.rot90(self.tile)
+            self.lastaction = 'rotate'
 
     def recover(self):
         if self.lastaction == 'empty':
@@ -90,30 +83,46 @@ class Tetris:
     def __init__(self):
         self.crrt = Block()
         self.canvas = Canvas()
+        self.dq = deque()
+        self.isStop = False
+        self.thread = threading.Thread(target=self.run)
+        self.thread.start()
+        self.self_drop()
 
     def draw(self):
-        if self.canvas.draw(self.crrt) is False:
+        picture = self.canvas.draw(self.crrt)
+        if picture is None:
             signal = self.crrt.recover()
             if signal is True:
                 self.canvas.update(self.crrt)
                 self.crrt = Block()
             elif signal is False:
-                raise ValueError
-            self.draw()
+                self.stop_game()
+        else:
+            print(picture)
+            return picture
 
-    def run(self, instruction):
-        if instruction == "left":
-            self.crrt.left_shift()
-            self.draw()
-        elif instruction == "right":
-            self.crrt.right_shift()
-            self.draw()
-        elif instruction == "down":
-            self.crrt.drop()
-            self.draw()
-        elif instruction == "up":
-            self.crrt.rotate()
-            self.draw()
+    def self_drop(self):
+        if self.isStop:
+            return
+        self.dq.appendleft('down')
+        t = Timer(2, self.self_drop)
+        t.start()
+
+    def stop_game(self):
+        self.isStop = True
+
+    def operate(self, instruction):
+        if self.isStop is False:
+            self.dq.append(instruction)
+
+    def run(self):                      # self.draw return the picture
+        self.draw()
+        while self.isStop is False:
+            if len(self.dq):
+                instruction = self.dq.popleft()
+                self.crrt.operate(instruction)
+                self.draw()
 
 
 if __name__ == '__main__':
