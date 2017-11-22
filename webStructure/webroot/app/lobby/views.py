@@ -8,4 +8,4 @@ def index():
 	if current_user.is_authenticated() is False:
 		return redirect(url_for('auth.login'))
 	else:
-		return render_template('lobby.html')
+		return render_template('lobby/lobby.html')
