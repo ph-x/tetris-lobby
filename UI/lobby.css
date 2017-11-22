@@ -1,5 +1,23 @@
+.box {
+	display: flex;
+	
+}
+
 #left {
-	width: 300px;;
+	display: flex;
+	flex-direction: column;
+	left: 0;
+	position: relative;
+	width: 300px;
+	height: 100%;
+	background-image: url(image/playerlist.png);
+}
+
+#right {
+	padding-left: 20px;
+	right: 0;
+	height: 100%;
+	width: 800px;
 }
 
 #user-info {
@@ -17,3 +35,76 @@
 	padding-top: 20px;
 	display: inline-block;
 	font-size: 50px;
+}
+
+#players {
+	height: 100%;
+}
+
+#rooms {
+	height: 360px;
+	padding: 0;
+	margin: 0 0;
+	background-image: url(image/rooms.png);
+	background-position: center center;
+	background-repeat: no-repeat;
+	background-size: 100% 360px;
+}
+
+#rooms li {
+	padding: 0;
+}
+
+#chat-area {
+	height: 250px;
+	padding-top: 5px;
+	background-image: url(image/chatbox.png);
+	background-size: 100% 100%;
+}
+
+#chat-msgs {
+	height: 200px;
+	margin: 0 10px;
+	background-image: url(image/msgbox.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	padding: 0px 0px;
+}
+
+#char-msgs li {
+	display: block;
+}
+
+#chat-input {
+	display: flex;
+	flex-direction: row;
+}
+
+#chat-box {
+	height: 50px;
+	width: calc(100% - 50px);
+	background-image: url(image/msginputbox.png);
+	background-size: calc(100% - 20px) calc(100% - 15px);
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+#chat-box input {
+	border: hidden;
+	background: transparent;
+	width: calc(100% - 20px);
+	height: calc(100% - 15px);
+}
+
+#chat-submit {
+	border: hidden;
+	padding: 0;
+	width: 50px;
+	background: transparent;
+}
+
+#chat-submit img {
+	width: 45px;
+	float: left;
+}
