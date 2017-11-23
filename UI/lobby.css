@@ -79,13 +79,15 @@
 #chat-input {
 	display: flex;
 	flex-direction: row;
+	height: 55px;
 }
 
 #chat-box {
-	height: 50px;
+	height: 43px;
+	margin-left: 10px;
 	width: calc(100% - 50px);
 	background-image: url(image/msginputbox.png);
-	background-size: calc(100% - 20px) calc(100% - 15px);
+	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	background-position: center center;
 }
@@ -93,8 +95,9 @@
 #chat-box input {
 	border: hidden;
 	background: transparent;
-	width: calc(100% - 20px);
-	height: calc(100% - 15px);
+	margin-left: 5px;
+	width: calc(100% - 5px);
+	height: calc(100% - 5px);
 }
 
 #chat-submit {

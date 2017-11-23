@@ -29,8 +29,5 @@ input {
 	width: 400px;
 	height: 45px;
 	border: none;
-}
-
-label {
-	
+	background: transparent;
 }
