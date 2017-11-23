@@ -1,0 +1,99 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+    <title>Tetris online game client test</title>
+	<script type="text/javascript" src="/static/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+//////////////////
+// socket
+
+var socket = io.connect("localhost:5000");
+
+var game_bitmap;
+var next;
+var next_next;
+
+socket.on("update", function (data){
+    data = parse(data);
+    game_bitmap = data['game_bitmap'];
+    next = data['next'];
+    next_next = data['next_next'];
+});
+
+//////////////////
+// game
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+var cursors;
+
+function preload() {
+
+    game.load.image('background', 'assets/background.png');
+    game.load.image('game_area', 'assets/game_area.png');
+    game.load.image('next_area', 'assets/next_area.png');
+    game.load.spritesheet('block', 'assets/block.png', 32, 48);
+
+}
+
+function create() {
+
+    // draw UI
+    game.add.sprite(0, 0, 'background');
+    game.add.sprite(30, 30, 'game_area');
+    game.add.sprite(600, 50, "next_area");
+    game.add.sprite(600, 400, "next_area");
+
+    // create controller
+    cursors = game.input.keyboard.createCursorKeys();
+
+}
+
+function update() {
+
+    // draw bitmap, nxt and nxtnxt
+    render_blocks(game_bitmap, 30, 30);
+    render_blocks(next, 600, 50);
+    render_blocks(next, 600, 400);
+    // send control to server
+    if (cursors.left.isDown)
+    {
+        socket.emit("control", "left");
+    }
+    else if (cursors.right.isDown)
+    {
+        socket.emit("control", "right");
+    }
+    else if (cursors.up.isDown)
+    {
+        socket.emit("control", "up");
+    }
+    else if (cursors.down.isDown)
+    {
+        socket.emit("control", "down");
+    }
+
+}
+
+function render_blocks(blocks, x, y){
+    for(var i = 0; i < blocks.length; i++){
+        for(var j = 0; j < blocks[i].length; j++){
+            game.add.sprite(x+i*32, y+j*48, 'block');
+        }
+    }
+}
+
+</script>
+
+</body>
+</html>
