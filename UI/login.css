@@ -7,25 +7,27 @@
 .box {
 	height: 300px;
 	background-image: url(image/box.png);
-	background-size: 500px 300px;
+	background-size: 500px 310px;
 	background-repeat: no-repeat;
 	background-position: center center;
 }
 
 .user {
-	padding-top:50px;
+	padding-top: 23px;
 	width: 400px;
 	height: 300px;
 	display: block;
 	margin: 0 auto;
 }
 
-input {
-	width: 400px;
-	height: 50px;
-	border: none;
+.user > label {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 25px;
 }
 
-label {
-	
+input {
+	width: 400px;
+	height: 45px;
+	border: none;
+	background: transparent;
 }
