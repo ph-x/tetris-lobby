@@ -1,18 +1,31 @@
 import copy
+from flask_socketio import SocketIO, emit
 from random import randint
 import numpy as np
 from threading import Timer
 from collections import deque
+from queue import Queue
 from tetrisLogic.tetris_config import *
 import threading
+import time
 
+class shared:
+    socket_out = None
+    winner = None
+    players = []
 
+class player:
+    def __init__(self, username):
+        self.username = username
+        self.ready = False
+    def ready(self):
+        self.ready = not self.ready
+        
 class Canvas:
     def __init__(self):
         self.board = np.matrix([[0 for i in range(width)] for j in range(height)])
         self.board[-1] = -1                             # boundary relevant
         self.board[:, -1] = self.board[:, 0] = -1       # boundary relevant
-
     def draw(self, block):
         row = len(block.tile)
         col = len(block.tile[0])
@@ -99,7 +112,6 @@ class Tetris:
             elif signal is False:
                 self.stop_game()
         else:
-            print(picture)
             return picture
 
     def self_drop(self):
@@ -116,13 +128,17 @@ class Tetris:
         if self.isStop is False:
             self.dq.append(instruction)
 
-    def run(self):                      # self.draw return the picture
+    def run(self):
         self.draw()
         while self.isStop is False:
             if len(self.dq):
                 instruction = self.dq.popleft()
                 self.crrt.operate(instruction)
-                self.draw()
+                picture = self.draw()
+                if picture is not None:
+                    shared.socket_out.emit('game', str(picture.tolist()), namespace='/game')
+            else:
+                time.sleep(0.01)
 
 
 if __name__ == '__main__':
