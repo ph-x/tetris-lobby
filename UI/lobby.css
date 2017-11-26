@@ -1,3 +1,7 @@
+html {
+	background-image: url(image/grid-bg.png);
+}
+
 .box {
 	display: flex;
 	
@@ -104,6 +108,7 @@
 	border: hidden;
 	padding: 0;
 	width: 50px;
+	height: 43px;
 	background: transparent;
 }
 
