@@ -11,7 +11,7 @@ import time
 
 class shared:
     socket_out = None
-    winner = None
+    loser = None
     players = []
 
 class player:
@@ -20,7 +20,7 @@ class player:
         self.ready = False
     def ready(self):
         self.ready = not self.ready
-        
+
 class Canvas:
     def __init__(self):
         self.board = np.matrix([[0 for i in range(width)] for j in range(height)])
@@ -91,12 +91,13 @@ class Block:
             return True
         self.lastaction = 'empty'
 
-
+#need opponent information
 class Tetris:
-    def __init__(self):
+    def __init__(self, index):
         self.crrt = Block()
         self.canvas = Canvas()
         self.dq = deque()
+        self.index = index
         self.isStop = False
         self.thread = threading.Thread(target=self.run)
         self.thread.start()
@@ -123,20 +124,21 @@ class Tetris:
 
     def stop_game(self):
         self.isStop = True
-
+        shared.loser = self.index
+        print('end')
     def operate(self, instruction):
         if self.isStop is False:
             self.dq.append(instruction)
 
     def run(self):
         self.draw()
-        while self.isStop is False:
+        while self.isStop is False and shared.loser is None:
             if len(self.dq):
                 instruction = self.dq.popleft()
                 self.crrt.operate(instruction)
                 picture = self.draw()
                 if picture is not None:
-                    shared.socket_out.emit('game', str(picture.tolist()), namespace='/game')
+                    shared.socket_out.emit('game', {'index':self.index, 'picture':str(picture.tolist())}, namespace='/game')
             else:
                 time.sleep(0.01)
 

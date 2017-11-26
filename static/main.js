@@ -29,16 +29,33 @@ $(document).keydown(function(e) {
     e.preventDefault();             // prevent the default action (scroll / move caret)
 });
 
-
+var matrix1 = null;
+var matrix2 = null;
 socket.on('game', function (data) {
-    var matrix = data.split(",");
-
+    if (data.index ==0){
+        var picture1 = data.picture;
+        matrix1 = picture1.split(",");
+    }
+    else{
+        var picture2 = data.picture;
+        matrix2 = picture2.split(",");
+    }
     var message = "";               //width and height are hard coded here
-    for (var i=0; i < 10; i++){
-        for (var j=0; j < 10; j++){
-            message += matrix.shift();
-        }
-        message += "<br>";
+    if (matrix1 != null){
+      for (var i=0; i < 10; i++){
+          for (var j=0; j < 10; j++){
+              message += matrix1.shift();
+          }
+          message += "<br>";
+      }
+    }
+    if (matrix2 != null){
+      for (var i=0; i < 10; i++){
+          for (var j=0; j < 10; j++){
+              message += matrix2.shift();
+          }
+          message += "<br>";
+      }
     }
     document.getElementById("message").innerHTML = message;
 });

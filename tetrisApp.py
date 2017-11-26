@@ -24,7 +24,11 @@ def on_join(data):
     username = data['username']
     room = data['room']
     join_room(room)
-    tetris_logic.shared.players.append(tetris_logic.Player(username))
+    current_player=tetris_logic.Player(username)
+    for player in tetris_logic.shared.players:
+        current_player.opponent = player
+        player.opponent = current_player
+    tetris_logic.shared.players.append(current_player)
 #unsecure, require user authentication
 @socketio.on('ready')
 def on_ready(data):
@@ -34,15 +38,14 @@ def on_ready(data):
 # TODO: combine username and roomID
 @socketio.on('start', namespace='/game')
 def start_game():
-    print('receive')
     tetris_logic.shared.winner = None
     game = [None, None]
-    game[0] = tetris_logic.Tetris()
-    #game[1] = tetris_logic.Tetris()
+    game[0] = tetris_logic.Tetris(0)
+    game[1] = tetris_logic.Tetris(1)
     @socketio.on('operate', namespace='/game')
     def operate_game(instruction):
         nonlocal game
         game[0].operate(instruction=instruction)
-        #game[1].operate(instruction=instruction)
+        game[1].operate(instruction=instruction)
 if __name__ == '__main__':
     socketio.run(app, debug=True)
