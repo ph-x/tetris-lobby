@@ -1,0 +1,143 @@
+<!doctype html> 
+<html lang="en"> 
+<head> 
+	<meta charset="UTF-8" />
+    <title>Tetris online game client test</title>
+	<script type="text/javascript" src="/static/phaser.js"></script>
+    <script type="text/javascript" src="/static/socket.io.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<script type="text/javascript">
+
+//////////////////
+// config
+
+var config = {
+    "key_sensitivity" : 4
+}
+
+
+//////////////////
+// socket
+
+var socket = io.connect("localhost:5000");
+
+var game_bitmap;
+var next;
+var next_next;
+
+socket.on("update", function (data){
+    data = JSON.parse(data);
+    console.log("data received: " + data);
+    game_bitmap = data['game_bitmap'];
+    next = data['next'];
+    console.log("next: " + next);
+
+    draw_game();
+});
+
+
+//////////////////
+// game
+
+var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+
+var cursors;
+
+function preload() {
+
+    game.load.image('background', 'static/assets/background.png');
+    //game.load.image('game_area', 'assets/game_area.png');
+    //game.load.image('next_area', 'assets/next_area.png');
+    game.load.spritesheet('block', 'static/assets/block.png', 32, 28);
+
+}
+
+function create() {
+
+    // draw UI
+    game.add.sprite(0, 0, 'background');
+    //game.add.sprite(30, 30, 'game_area');
+    //game.add.sprite(600, 50, "next_area");
+
+    // create controller
+    cursors = game.input.keyboard.createCursorKeys();
+
+}
+
+var key_cumulate = 0;
+function update() {
+
+    // send control to server
+    if (cursors.left.isDown)
+    {
+        key_cumulate++;
+        if(key_cumulate > config.key_sensitivity){
+            key_cumulate -= config.key_sensitivity;
+            socket.emit("control", "left");
+        }
+    }
+    else if (cursors.right.isDown)
+    {
+        key_cumulate++;
+        if(key_cumulate > config.key_sensitivity){
+            key_cumulate -= config.key_sensitivity;
+            socket.emit("control", "right");
+        }
+    }
+    else if (cursors.up.isDown)
+    {
+        key_cumulate++;
+        if(key_cumulate > config.key_sensitivity){
+            key_cumulate -= config.key_sensitivity;
+            socket.emit("control", "up");
+        }
+    }
+    else if (cursors.down.isDown)
+    {
+        key_cumulate++;
+        if(key_cumulate > config.key_sensitivity){
+            key_cumulate -= config.key_sensitivity;
+            socket.emit("control", "down");
+        }
+    }
+
+}
+
+function draw_game() {
+
+    // draw bitmap and nxt 
+    render_blocks(game_bitmap, 30, 30);
+    render_blocks(next, 600, 50);
+
+}
+
+function render_blocks(blocks, x, y){
+
+    console.log("type is " + typeof(blocks));
+    console.log("t1 " + typeof(blocks) == undefined);
+    console.log("t2 " + typeof(blocks) == 'undefined');
+    if (typeof(blocks) == undefined){
+        console.log("will return");
+        return;
+    }
+    for(var i = 0; i < blocks.length; i++){
+        for(var j = 0; j < blocks[i].length; j++){
+            if(blocks[i][j] != 0){
+                game.add.sprite(x+j*32, y+i*28, 'block');
+            }
+        }
+    }
+
+}
+
+</script>
+
+</body>
+</html>
