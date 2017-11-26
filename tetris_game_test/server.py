@@ -27,19 +27,19 @@ def test_connect(data):
     if data == 'left':
         cc = cc - 1
         if cc < 0:
-            cc = cc + 10
+            cc = 0
     elif data == 'right':
         cc = cc + 1
-        if cc > 21:
-            cc = cc - 10
+        if cc > 9:
+            cc = 9
     elif data == 'up':
         cr = cr - 1
         if cr < 0:
-            cr = cr + 22
+            cr = 0
     elif data == 'down':
         cr = cr + 1
-        if cr > 9:
-            cr = cr - 22
+        if cr > 21:
+            cr = 21
     bitmap[cr][cc] = 1
     # ATTENTION! In the response, all the strings should be included by DOUBLE QUOTATIONS, not single quotations!
     res = '{"game_bitmap": ' + str(bitmap) + ', "next": ' + str(next) + '}';

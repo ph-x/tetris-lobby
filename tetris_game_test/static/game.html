@@ -49,22 +49,25 @@ socket.on("update", function (data){
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
 var cursors;
+var block_group;
 
 function preload() {
 
     game.load.image('background', 'static/assets/background.png');
     //game.load.image('game_area', 'assets/game_area.png');
     //game.load.image('next_area', 'assets/next_area.png');
-    game.load.spritesheet('block', 'static/assets/block.png', 32, 28);
+    game.load.spritesheet('block', 'static/assets/block.png', 24, 24);
 
 }
 
 function create() {
 
     // draw UI
-    game.add.sprite(0, 0, 'background');
+    game.add.image(0, 0, 'background');
     //game.add.sprite(30, 30, 'game_area');
     //game.add.sprite(600, 50, "next_area");
+
+    block_group = game.add.group();
 
     // create controller
     cursors = game.input.keyboard.createCursorKeys();
@@ -112,6 +115,8 @@ function update() {
 
 function draw_game() {
 
+    block_group.destroy();
+    block_group = game.add.group();
     // draw bitmap and nxt 
     render_blocks(game_bitmap, 30, 30);
     render_blocks(next, 600, 50);
@@ -130,7 +135,7 @@ function render_blocks(blocks, x, y){
     for(var i = 0; i < blocks.length; i++){
         for(var j = 0; j < blocks[i].length; j++){
             if(blocks[i][j] != 0){
-                game.add.sprite(x+j*32, y+i*28, 'block');
+                block_group.create(x+j*24, y+i*24, 'block');
             }
         }
     }
