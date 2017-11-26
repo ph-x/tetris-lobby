@@ -1,0 +1,121 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	background-image: url(image/grid-bg.png);
+}
+
+.box {
+	display: flex;
+}
+
+#left {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	height: 100%;
+}
+
+#right {
+	padding-left: 20px;
+	right: 0;
+	height: 100%;
+	width: 800px;
+}
+
+#user-info {
+	float: left;
+	width: 300px;
+	height: 400px;
+}
+
+#chat-area {
+	padding: 0 0;
+	float: left;
+	height: calc(100vh - 400px);
+	width: 300px;
+	background-image: url(image/chatbox.png);
+	background-size: 100% 100%;
+}
+
+#chat-msgs {
+	height: calc(100% - 60px);
+	margin: 0 10px;
+	background-image: url(image/msgbox.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	padding: 0px 0px;
+}
+
+#char-msgs li {
+	display: block;
+}
+
+#chat-input {
+	display: flex;
+	flex-direction: row;
+	height: 55px;
+}
+
+#chat-box {
+	height: 43px;
+	margin-left: 10px;
+	width: calc(100% - 50px);
+	background-image: url(image/msginputbox.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+#chat-box input {
+	border: hidden;
+	background: transparent;
+	margin-left: 5px;
+	width: calc(100% - 5px);
+	height: calc(100% - 5px);
+}
+
+#chat-submit {
+	border: hidden;
+	padding: 0;
+	width: 50px;
+	height: 43px;
+	background: transparent;
+}
+
+#chat-submit img {
+	width: 45px;
+	float: left;
+}
+
+.game-l {
+	width: 300px;
+	height: calc(100% - 200px);
+	background-image: url(image/gamebox-l);
+	background-size:100% 100%;
+}
+
+.game-r {
+	width: 300px;
+	background-image: url(image/gamebox-r);
+	background-size:100% 100%;
+}
+
+#game-ready {
+	width: 300px;
+	background: transparent;
+	border: transparent;
+}
+
+#game-ready img {
+	width: 100%;
+}
