@@ -141,7 +141,7 @@ class Tetris:
                 self.crrt.operate(instruction)
                 picture = self.draw()
                 if picture is not None:
-                    Shared.socket_out.emit('game_msg', {'player':Shared.direction[self.sid], 'bitmap':json.dumps(picture[0:-1,1:-1].tolist())}, namespace='/game')
+                    Shared.socket_out.emit('game_msg', json.dumps({'player':Shared.direction[self.sid], 'bitmap':(picture[0:-1,1:-1].tolist())}), namespace='/game')
             else:
                 time.sleep(0.01)
 
