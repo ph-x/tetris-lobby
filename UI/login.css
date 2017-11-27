@@ -2,14 +2,14 @@ html {
 	background-image: url(image/grid-bg.png);
 }
 
-.login_ico > img {
+#login_ico > img {
 	width: 400px;
 	display: block;
 	margin: 0 auto;
 	padding-top: 30px;
 }
 
-.box {
+#box {
 	height: 220px;
 	background-image: url(image/loginbox.png);
 	background-size: 500px 100%;
@@ -18,7 +18,7 @@ html {
 	margin-top: 50px;
 }
 
-.user {
+#user {
 	padding-top: 15px;
 	width: 400px;
 	height: 220px;
@@ -26,7 +26,7 @@ html {
 	margin: 0 auto;
 }
 
-.user > label {
+#user > label {
 	font-family: "Comic Sans MS", cursive, sans-serif;
 	font-size: 25px;
 }
@@ -40,18 +40,18 @@ input {
 	font-size: 40px;
 }
 
-.buttons {
+#buttons {
 	margin-top: 20px;
 }
 
-.buttons button {
+#buttons button {
 	padding: 0 0;
 	background: transparent;
 	border: transparent;
 	width: 300px;
 }
 
-.buttons img {
+#buttons img {
 	width: 300px;
 }
 
@@ -65,7 +65,7 @@ input {
 	left: calc(50% + 10px);
 }
 
-.loginbg {
+#loginbg {
 	position: absolute;
 	right: 60px;
 	bottom: 20px;
