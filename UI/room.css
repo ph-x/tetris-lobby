@@ -116,7 +116,7 @@ html {
 	display: flex;
 }
 
-.game-l {
+#game-l {
 	padding: 37px 20px;
 	width: 240px;
 	height: 528px;
@@ -125,7 +125,7 @@ html {
 	background-size:100% 100%;
 }
 
-.game-r {
+#game-r {
 	padding: 37px 20px;
 	width: 240px;
 	height: 528px;
@@ -140,8 +140,20 @@ html {
 	left: 50%;
 	background: transparent;
 	border: transparent;
+	outline: none;
 }
 
 #game-ready img {
 	width: 100%;
+}
+
+#game-ready img:hover {
+	width: 310px;
+	margin-top: -2px;
+	margin-left: -5px;
+}
+
+#game-ready img:active {
+	width: 300px;
+	margin: 0 0;
 }
