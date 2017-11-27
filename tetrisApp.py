@@ -27,26 +27,27 @@ def on_join(data):
     join_room(room)
     current_player=tetris_logic.Player(sid)
     current_player.opponent = None
-    for player in tetris_logic.Shared.players:
-        current_player.opponent = player
-        player.opponent = current_player
-    tetris_logic.Shared.players.append(current_player)
+    for psid in tetris_logic.Shared.players:
+        current_player.opponent = tetris_logic.Shared.players[psid]
+        tetris_logic.Shared.players[psid].opponent = current_player
+    tetris_logic.Shared.players[sid]=current_player
 def start_game():
     game = {}
-    for player in tetris_logic.Shared.players:
-        game[player.sid]=tetris_logic.Tetris(player.sid)
+    for psid in tetris_logic.Shared.players:
+        game[psid]=tetris_logic.Tetris(psid)
         if len(tetris_logic.Shared.direction) is 0:
-            tetris_logic.Shared.direction[player.sid]='left'
+            tetris_logic.Shared.direction[psid]='left'
         else:
-            tetris_logic.Shared.direction[player.sid]='right'
+            tetris_logic.Shared.direction[psid]='right'
     tetris_logic.Shared.loser = None
     tetris_logic.Shared.game = game
 #unsecure, require user authentication
 @socketio.on('ready', namespace='/game')
 def on_ready(data):
     print(request.sid)
-    for player in tetris_logic.Shared.players:
-        if player.sid is request.sid:
+    for psid in tetris_logic.Shared.players:
+        player = tetris_logic.Shared.players[psid]
+        if psid is request.sid:
             player.ready()
             print(player.is_ready)
             if player.opponent is not None and player.opponent.is_ready:

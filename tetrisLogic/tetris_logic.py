@@ -13,7 +13,7 @@ import json
 class Shared:
     socket_out = None
     loser = None
-    players = []
+    players = {}
     direction={}
     game = {}
 
@@ -141,7 +141,13 @@ class Tetris:
                 self.crrt.operate(instruction)
                 picture = self.draw()
                 if picture is not None:
-                    Shared.socket_out.emit('game_msg', json.dumps({'player':Shared.direction[self.sid], 'bitmap':(picture[0:-1,1:-1].tolist())}), namespace='/game')
+                    data = {'bitmap':(picture[0:-1,1:-1].tolist())}
+                    for psid in Shared.players:
+                        if psid is self.sid:
+                            data['player'] = 'left'
+                        else:
+                            data['player'] = 'right'
+                        Shared.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
             else:
                 time.sleep(0.01)
 
