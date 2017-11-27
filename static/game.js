@@ -2,7 +2,11 @@
 // config
 
 var config = {
-    "key_sensitivity" : 4
+    "key_sensitivity"   : 4,
+    "key_up_delay"      : 200,
+    "key_down_delay"    : 100,
+    "key_left_delay"    : 50,
+    "key_right_delay"   : 50,
 }
 
 
@@ -29,7 +33,6 @@ socket.on("game_msg", function (data){
     }
     draw_game(game);
 });
-
 
 //////////////////
 // room
@@ -76,6 +79,20 @@ function create1() {
     // create controller
     cursors = game1.input.keyboard.createCursorKeys();
 
+    // guarantee at least 1 action per operate
+    cursors.left.onDown.add(function(){
+        socket.emit("operate", "left");
+    });
+    cursors.right.onDown.add(function(){
+        socket.emit("operate", "right");
+    });
+    cursors.up.onDown.add(function(){
+        socket.emit("operate", "up");
+    });
+    cursors.down.onDown.add(function(){
+        socket.emit("operate", "down");
+    });
+
 }
 
 function create2() {
@@ -90,39 +107,49 @@ function create2() {
 var key_cumulate = 0;
 function update1() {
 
-    // send control to server
+    // key hold input
+    
     if (cursors.left.isDown)
     {
-        key_cumulate++;
-        if(key_cumulate > config.key_sensitivity){
-            key_cumulate -= config.key_sensitivity;
-            socket.emit("operate", "left");
+        if(cursors.left.duration > config.key_left_delay){
+            key_cumulate++;
+            if(key_cumulate > config.key_sensitivity){
+                key_cumulate -= config.key_sensitivity;
+                socket.emit("operate", "left");
+            }
         }
     }
     else if (cursors.right.isDown)
     {
-        key_cumulate++;
-        if(key_cumulate > config.key_sensitivity){
-            key_cumulate -= config.key_sensitivity;
-            socket.emit("operate", "right");
+        if(cursors.right.duration > config.key_right_delay){
+            key_cumulate++;
+            if(key_cumulate > config.key_sensitivity){
+                key_cumulate -= config.key_sensitivity;
+                socket.emit("operate", "right");
+            }
         }
     }
     else if (cursors.up.isDown)
     {
-        key_cumulate++;
-        if(key_cumulate > config.key_sensitivity){
-            key_cumulate -= config.key_sensitivity;
-            socket.emit("operate", "up");
+        if(cursors.up.duration > config.key_up_delay){
+            key_cumulate++;
+            if(key_cumulate > config.key_sensitivity){
+                key_cumulate -= config.key_sensitivity;
+                socket.emit("operate", "up");
+            }
         }
     }
     else if (cursors.down.isDown)
     {
-        key_cumulate++;
-        if(key_cumulate > config.key_sensitivity){
-            key_cumulate -= config.key_sensitivity;
-            socket.emit("operate", "down");
+        if(cursors.down.duration > config.key_down_delay){
+            key_cumulate++;
+            if(key_cumulate > config.key_sensitivity){
+                key_cumulate -= config.key_sensitivity;
+                socket.emit("operate", "down");
+            }
         }
     }
+    
 
 }
 
