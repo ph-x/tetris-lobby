@@ -8,6 +8,7 @@ from queue import Queue
 from tetrisLogic.tetris_config import *
 import threading
 import time
+import json
 
 class Shared:
     socket_out = None
@@ -140,7 +141,7 @@ class Tetris:
                 self.crrt.operate(instruction)
                 picture = self.draw()
                 if picture is not None:
-                    Shared.socket_out.emit('game_msg', {'player':Shared.direction[self.sid], 'bitmap':str(picture[0:-1,1:-1].tolist())}, namespace='/game')
+                    Shared.socket_out.emit('game_msg', {'player':Shared.direction[self.sid], 'bitmap':json.dumps(picture[0:-1,1:-1].tolist())}, namespace='/game')
             else:
                 time.sleep(0.01)
 
