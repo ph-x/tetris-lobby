@@ -38,6 +38,7 @@ input {
 	margin: 0 auto;
 	background: transparent;
 	border: transparent;
+	outline: none;
 	width: 300px;
 }
 
@@ -45,6 +46,16 @@ input {
 	width: 300px;
 }
 
+#signup_btn img:hover {
+	width: 320px;
+	margin-top: -5px;
+	margin-left: -10px;
+}
+
+#signup_btn img:active {
+	width: 300px;
+	margin: 0 0;
+}
 
 #loginbg {
 	position: absolute;

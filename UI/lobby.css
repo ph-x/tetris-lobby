@@ -43,15 +43,30 @@ html {
 	width: 100px;
 	height: 100px;
 	padding: 0;
-	margin-top: -70px;
+	margin-top: -90px;
 	background: transparent;
 	border: transparent;
+	outline: none;
 	float: right;
 }
 
 #logout img {
 	width: 100%;
 	height: 100%;
+}
+
+#logout img:hover {
+	width: 110px;
+	height: 110px;
+	margin-top: -5px;
+	margin-left: -5px;
+}
+
+#logout img:active {
+	width: 95px;
+	height: 95px;
+	margin-top: 2px;
+	margin-left: 2px;
 }
 
 #user-info li {
@@ -123,9 +138,9 @@ html {
 
 #newroom {
 	padding: 0 0;
-	margin-top: -50px;
-	width: 50px;
-	height: 50px;
+	margin-top: -60px;
+	width: 60px;
+	height: 60px;
 	position: absolute;
 	right: 10px;
 	z-index: 9999;
@@ -133,18 +148,27 @@ html {
 
 #newroom_btn {
 	padding: 0 0;
-	margin: 0 0;
+	margin: 5px 5px;
 	width: 50px;
 	height: 50px;
-	background: transparent;
 	border: transparent;
+	outline: none;
+	background: transparent;
+	background-image: url(image/newroom_btn.png);
+	background-size: 100% 100%;
+	background-position: center center;
 }
 
-#newroom_btn img {
-	padding: 0 0;
+#newroom_btn:hover {
+	width: 60px;
+	height: 60px;
 	margin: 0 0;
-	width: 100%;
-	height: 100%;
+}
+
+#newroom_btn:active {
+	width: 50px;
+	height: 50px;
+	margin: 5px 5px;
 }
 
 #chat-area {
