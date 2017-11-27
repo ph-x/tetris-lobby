@@ -13,10 +13,12 @@ class Shared:
     socket_out = None
     loser = None
     players = []
+    direction={}
+    game = {}
 
 class Player:
-    def __init__(self, username):
-        self.username = username
+    def __init__(self, sid):
+        self.sid = sid
         self.is_ready = False
     def ready(self):
         self.is_ready = not self.is_ready
@@ -93,11 +95,11 @@ class Block:
 
 #need opponent information
 class Tetris:
-    def __init__(self, username):
+    def __init__(self, sid):
         self.crrt = Block()
         self.canvas = Canvas()
         self.dq = deque()
-        self.username = username
+        self.sid = sid
         self.isStop = False
         self.thread = threading.Thread(target=self.run)
         self.thread.start()
@@ -124,7 +126,7 @@ class Tetris:
 
     def stop_game(self):
         self.isStop = True
-        shared.loser = self.username
+        Shared.loser = self.sid
         print('end')
     def operate(self, instruction):
         if self.isStop is False:
@@ -132,13 +134,13 @@ class Tetris:
 
     def run(self):
         self.draw()
-        while self.isStop is False and shared.loser is None:
+        while self.isStop is False and Shared.loser is None:
             if len(self.dq):
                 instruction = self.dq.popleft()
                 self.crrt.operate(instruction)
                 picture = self.draw()
                 if picture is not None:
-                    shared.socket_out.emit('game', {'username':self.username, 'bitmap':str(picture.tolist())}, namespace='/game')
+                    Shared.socket_out.emit('game', {'player':Shared.direction[self.sid], 'bitmap':str(picture.tolist())}, namespace='/game')
             else:
                 time.sleep(0.01)
 

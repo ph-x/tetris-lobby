@@ -1,7 +1,7 @@
-from flask import Flask, send_from_directory
+from flask import Flask, send_from_directory, request
 from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
     close_room, rooms, disconnect
-from flask-login import current_user
+#from flask-login import current_user
 from tetrisLogic import tetris_logic
 import eventlet
 import redis
@@ -19,12 +19,12 @@ tetris_logic.Shared.socket_out = SocketIO(message_queue='redis://localhost:6379/
 def index():
     return send_from_directory('static', 'index.html')
 #unsecure, require user authentication
-@socketio.on('join')
+@socketio.on('join', namespace='/game')
 def on_join(data):
-    username = data['username']
+    sid = request.sid
     room = data['room']
     join_room(room)
-    current_player=tetris_logic.Player(username)
+    current_player=tetris_logic.Player(sid)
     current_player.opponent = None
     for player in tetris_logic.Shared.players:
         current_player.opponent = player
@@ -33,20 +33,26 @@ def on_join(data):
 def start_game():
     game = {}
     for player in tetris_logic.Shared.players:
-        game[player.username]=tetris_logic.Tetris(player.username)
+        game[player.sid]=tetris_logic.Tetris(player.sid)
+        if len(tetris_logic.Shared.direction) is 0:
+            tetris_logic.Shared.direction[player.sid]='left'
+        else:
+            tetris_logic.Shared.direction[player.sid]='right'
     tetris_logic.Shared.loser = None
     tetris_logic.Shared.game = game
 #unsecure, require user authentication
-@socketio.on('ready')
+@socketio.on('ready', namespace='/game')
 def on_ready(data):
+    print(request.sid)
     for player in tetris_logic.Shared.players:
-        if player.username is current_user.username:
+        if player.sid is request.sid:
             player.ready()
-            if player.opponent not None and player.opponent.is_ready:
+            print(player.is_ready)
+            if player.opponent is not None and player.opponent.is_ready:
                 start_game()
 @socketio.on('operate', namespace='/game')
 def operate_game(instruction):
     game = tetris_logic.Shared.game
-    game[current_user.username].operate(instruction=instruction)
+    game[request.sid].operate(instruction=instruction)
 if __name__ == '__main__':
     socketio.run(app, debug=True)

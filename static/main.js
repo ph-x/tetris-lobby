@@ -2,7 +2,8 @@ var socket = io.connect("127.0.0.1:5000/game");
 
 var startButton = document.getElementById("start");
 startButton.onclick = function () {
-    socket.emit("start");
+    socket.emit("join",{'room':0})
+    socket.emit("ready",{});
 };
 
 $(document).keydown(function(e) {
@@ -32,14 +33,10 @@ $(document).keydown(function(e) {
 var matrix1 = null;
 var matrix2 = null;
 socket.on('game', function (data) {
-    if (data.index ==0){
-        var picture1 = data.picture;
-        matrix1 = picture1.split(",");
-    }
-    else{
-        var picture2 = data.picture;
-        matrix2 = picture2.split(",");
-    }
+
+    var picture1 = data.bitmap;
+    matrix1 = picture1.split(",");
+
     var message = "";               //width and height are hard coded here
     if (matrix1 != null){
       for (var i=0; i < 10; i++){
