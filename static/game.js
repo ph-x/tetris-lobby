@@ -134,8 +134,7 @@ function draw_game(game) {
     else if(game == game2){
         block_group = block_group2;
     }
-    block_group.destroy();
-    block_group = game.add.group();
+    block_group.removeAll(true, false);
     // draw bitmap and nxt 
     render_blocks(game_bitmap, block_group, 0, 0);
     //render_blocks(next, 600, 50);
