@@ -9,17 +9,17 @@ from tetrisLogic.tetris_config import *
 import threading
 import time
 
-class shared:
+class Shared:
     socket_out = None
     loser = None
     players = []
 
-class player:
+class Player:
     def __init__(self, username):
         self.username = username
-        self.ready = False
+        self.is_ready = False
     def ready(self):
-        self.ready = not self.ready
+        self.is_ready = not self.is_ready
 
 class Canvas:
     def __init__(self):
@@ -93,11 +93,11 @@ class Block:
 
 #need opponent information
 class Tetris:
-    def __init__(self, index):
+    def __init__(self, username):
         self.crrt = Block()
         self.canvas = Canvas()
         self.dq = deque()
-        self.index = index
+        self.username = username
         self.isStop = False
         self.thread = threading.Thread(target=self.run)
         self.thread.start()
@@ -124,7 +124,7 @@ class Tetris:
 
     def stop_game(self):
         self.isStop = True
-        shared.loser = self.index
+        shared.loser = self.username
         print('end')
     def operate(self, instruction):
         if self.isStop is False:
@@ -138,7 +138,7 @@ class Tetris:
                 self.crrt.operate(instruction)
                 picture = self.draw()
                 if picture is not None:
-                    shared.socket_out.emit('game', {'index':self.index, 'picture':str(picture.tolist())}, namespace='/game')
+                    shared.socket_out.emit('game', {'username':self.username, 'bitmap':str(picture.tolist())}, namespace='/game')
             else:
                 time.sleep(0.01)
 

@@ -1,7 +1,7 @@
 from flask import Flask, send_from_directory
 from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
     close_room, rooms, disconnect
-#from flask-login import current_user
+from flask-login import current_user
 from tetrisLogic import tetris_logic
 import eventlet
 import redis
@@ -14,7 +14,7 @@ r = redis.Redis(connection_pool=pool)
 
 socketio = SocketIO(app, message_queue='redis://localhost:6379/0', async_mode='eventlet')
 
-tetris_logic.shared.socket_out = SocketIO(message_queue='redis://localhost:6379/0')
+tetris_logic.Shared.socket_out = SocketIO(message_queue='redis://localhost:6379/0')
 @app.route('/')
 def index():
     return send_from_directory('static', 'index.html')
@@ -25,27 +25,28 @@ def on_join(data):
     room = data['room']
     join_room(room)
     current_player=tetris_logic.Player(username)
-    for player in tetris_logic.shared.players:
+    current_player.opponent = None
+    for player in tetris_logic.Shared.players:
         current_player.opponent = player
         player.opponent = current_player
-    tetris_logic.shared.players.append(current_player)
+    tetris_logic.Shared.players.append(current_player)
+def start_game():
+    game = {}
+    for player in tetris_logic.Shared.players:
+        game[player.username]=tetris_logic.Tetris(player.username)
+    tetris_logic.Shared.loser = None
+    tetris_logic.Shared.game = game
 #unsecure, require user authentication
 @socketio.on('ready')
 def on_ready(data):
-    for player in tetris_logic.shared.players:
-        if player.username is data['username']:
+    for player in tetris_logic.Shared.players:
+        if player.username is current_user.username:
             player.ready()
-# TODO: combine username and roomID
-@socketio.on('start', namespace='/game')
-def start_game():
-    tetris_logic.shared.winner = None
-    game = [None, None]
-    game[0] = tetris_logic.Tetris(0)
-    game[1] = tetris_logic.Tetris(1)
-    @socketio.on('operate', namespace='/game')
-    def operate_game(instruction):
-        nonlocal game
-        game[0].operate(instruction=instruction)
-        game[1].operate(instruction=instruction)
+            if player.opponent not None and player.opponent.is_ready:
+                start_game()
+@socketio.on('operate', namespace='/game')
+def operate_game(instruction):
+    game = tetris_logic.Shared.game
+    game[current_user.username].operate(instruction=instruction)
 if __name__ == '__main__':
     socketio.run(app, debug=True)
