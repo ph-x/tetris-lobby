@@ -17,10 +17,11 @@ socketio = SocketIO(app, message_queue='redis://localhost:6379/0', async_mode='e
 tetris_logic.Shared.socket_out = SocketIO(message_queue='redis://localhost:6379/0')
 @app.route('/')
 def index():
-    return send_from_directory('static', 'index.html')
+    return send_from_directory('static', 'room.html')
 #unsecure, require user authentication
 @socketio.on('join', namespace='/game')
 def on_join(data):
+    print("join")
     sid = request.sid
     room = data['room']
     join_room(room)

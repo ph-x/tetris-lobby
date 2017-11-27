@@ -11,6 +11,7 @@ var config = {
 
 var socket = io.connect("localhost:5000/game");
 
+console.log("join!!!!!");
 socket.emit("join", {"room" : 0});
 
 var game_bitmap;
@@ -19,7 +20,7 @@ socket.on("game_msg", function (data){
     var game;
     data = JSON.parse(data);
     game_bitmap = data['game_bitmap'];
-    player = data['player'];
+    var player = data['player'];
 
     if(player == "left"){
         game = game1;
