@@ -3,28 +3,28 @@
 <html>
 <head>
 <meta charset="utf-8">
-<title>Login</title>
+<title>Sign Up</title>
 <link rel="stylesheet" title="text/css" href="sign_up.css" />
 </head>
 
 <body>
 
-<div class="login_ico">
-	<img src="image/login_ico.png" alt="Smiley face" width="500">
+<div id="box">
+<div id="user">
+	<label for="username">Username</label>
+	<input name="username" id="username" value>
+	<label for="password">Password</label>
+	<input name="password" id="password" value>
+	<label for="r_password">Repeat Password</label>
+	<input name="r_password" id="r_password" value>
+</div>
 </div>
 
-<div class="box">
-<div class="user">
-	<label for="username">Username</label><br>
-	<input name="username" id="username" value><br>
-	<br>
-	<label for="password">Password</label><br>
-	<input name="password" id="password" value><br>
-	<br>
-	<label for="r_password">Repeat Password</label><br>
-	<input name="r_password" id="r_password" value><br>
-</div>
-</div>
+<button type="button" id="signup_btn">
+	<img src="image/signup_btn.png">
+</button>
+
+<img id="loginbg" src="image/login_bg.png">
 
 </body>
 
