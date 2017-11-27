@@ -14,8 +14,8 @@ class Shared:
     socket_out = None
     loser = None
     players = {}
-    direction={}
     game = {}
+    game_status = 'waiting'
 
 class Player:
     def __init__(self, sid):
@@ -128,6 +128,7 @@ class Tetris:
     def stop_game(self):
         self.isStop = True
         Shared.loser = self.sid
+        Shared.game_status = 'end'
         print('end')
     def operate(self, instruction):
         if self.isStop is False:

@@ -41,9 +41,12 @@ def start_game():
             tetris_logic.Shared.direction[psid]='right'
     tetris_logic.Shared.loser = None
     tetris_logic.Shared.game = game
+    tetris_logic.Shared.game_status = 'on'
 #unsecure, require user authentication
 @socketio.on('ready', namespace='/game')
 def on_ready(data):
+    if tetris_logic.Shared.game_status is 'on':
+        return
     print(request.sid)
     for psid in tetris_logic.Shared.players:
         player = tetris_logic.Shared.players[psid]
