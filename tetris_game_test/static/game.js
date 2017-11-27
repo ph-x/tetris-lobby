@@ -25,7 +25,7 @@ socket.on("game_msg", function (data){
     if(player == "left"){
         game = game1;
     }
-    else(player == "right"){
+    else if(player == "right"){
         game = game2;
     }
     draw_game(game);

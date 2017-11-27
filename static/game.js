@@ -18,13 +18,13 @@ var game_bitmap;
 socket.on("game_msg", function (data){
     var game;
     data = JSON.parse(data);
-    game_bitmap = data['game_bitmap'];
-    player = data['player'];
+    game_bitmap = data['bitmap'];
+    var player = data['player'];
 
     if(player == "left"){
         game = game1;
     }
-    else(player == "right"){
+    else if(player == "right"){
         game = game2;
     }
     draw_game(game);
@@ -45,7 +45,7 @@ document.getElementById("game-ready").onclick = function(){
 var game_height = 528;
 var game_width = 240;
 
-var game1 = new Phaser.Game(game_width, game_height, Phaser.AUTO, document.getElementById("game-l"), { preload: preload1, create: create1, update: update_l });
+var game1 = new Phaser.Game(game_width, game_height, Phaser.AUTO, document.getElementById("game-l"), { preload: preload1, create: create1, update: update1 });
 var game2 = new Phaser.Game(game_width, game_height, Phaser.AUTO, document.getElementById("game-r"), { preload: preload2, create: create2 });
 
 var cursors;
