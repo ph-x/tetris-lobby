@@ -96,7 +96,7 @@ function update1() {
         key_cumulate++;
         if(key_cumulate > config.key_sensitivity){
             key_cumulate -= config.key_sensitivity;
-            socket.emit("control", "left");
+            socket.emit("operate", "left");
         }
     }
     else if (cursors.right.isDown)
@@ -104,7 +104,7 @@ function update1() {
         key_cumulate++;
         if(key_cumulate > config.key_sensitivity){
             key_cumulate -= config.key_sensitivity;
-            socket.emit("control", "right");
+            socket.emit("operate", "right");
         }
     }
     else if (cursors.up.isDown)
@@ -112,7 +112,7 @@ function update1() {
         key_cumulate++;
         if(key_cumulate > config.key_sensitivity){
             key_cumulate -= config.key_sensitivity;
-            socket.emit("control", "up");
+            socket.emit("operate", "up");
         }
     }
     else if (cursors.down.isDown)
@@ -120,7 +120,7 @@ function update1() {
         key_cumulate++;
         if(key_cumulate > config.key_sensitivity){
             key_cumulate -= config.key_sensitivity;
-            socket.emit("control", "down");
+            socket.emit("operate", "down");
         }
     }
 
