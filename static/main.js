@@ -32,14 +32,14 @@ $(document).keydown(function(e) {
 
 var matrix1 = null;
 var matrix2 = null;
-socket.on('game', function (data) {
+socket.on('game_msg', function (data) {
 
     var picture1 = data.bitmap;
     matrix1 = picture1.split(",");
 
     var message = "";               //width and height are hard coded here
     if (matrix1 != null){
-      for (var i=0; i < 10; i++){
+      for (var i=0; i < 22; i++){
           for (var j=0; j < 10; j++){
               message += matrix1.shift();
           }
@@ -47,7 +47,7 @@ socket.on('game', function (data) {
       }
     }
     if (matrix2 != null){
-      for (var i=0; i < 10; i++){
+      for (var i=0; i < 22; i++){
           for (var j=0; j < 10; j++){
               message += matrix2.shift();
           }
