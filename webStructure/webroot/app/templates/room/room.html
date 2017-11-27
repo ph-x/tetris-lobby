@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Tetris Game Room</title>
+
+</head>
+<body>
+<div class="page-header">
+    <h1>Tetris Room</h1>
+</div>
+
+<div class="user-info">
+    <p>{{ current_user.username }}</p>
+</div>
+<div class="user-info">
+    <!--another user's name-->
+</div>
+
+<button type="button" id="game-ready">Ready</button>
+
+<div id="game-area">
+</div>
+
+<div id="chat-area">
+    <ul id="chat-msgs"></ul>
+    <input type="text" id="chat-box"></input>
+    <button type="button" id="chat-submit">submit</button>
+</div>
+
+<script src="/jquery-3.2.1.min.js"></script>
+<script src="/socket.io.js"></script>
+<script src="/phaser.min.js"></script>
+<script src="/room_main.js"></script>
+
+</body>
+</html>

@@ -3,29 +3,48 @@
 <head>
 <meta charset="utf-8">
 <title>Tetris Game Room</title>
-
+<link rel="stylesheet" title="text/css" href="room.css" />
 </head>
+
 <body>
-<div class="page-header">
-    <h1>Tetris Room</h1>
-</div>
 
-<div class="user-info">
-    <p>{{ current_user.username }}</p>
-</div>
-<div class="user-info">
-    <!--another user's name-->
-</div>
-
-<button type="button" id="game-ready">Ready</button>
-
-<div id="game-area">
+<div class="box">
+<div id="left">
+<div id="user-info">
+	<div class="user-info-l">
+	</div>
+	<div class="user-info-r">
+	</div>
 </div>
 
 <div id="chat-area">
-    <ul id="chat-msgs"></ul>
-    <input type="text" id="chat-box"></input>
-    <button type="button" id="chat-submit">submit</button>
+	<ul id="chat-msgs"></ul>
+	<div id="chat-input">
+		<div id="chat-box">
+			<input type="text"></input>
+		</div>
+		<button type="button" id="chat-submit">
+			<img src="image/submit.png">
+		</button>
+	</div>
+</div>
+</div>
+
+<div id="right">
+<div id="game-area">
+	<div class="game-l"></div>
+	<div class="next-l"></div>
+	<div class="next-r"></div>
+	<div class="game-r"></div>
+</div>
+
+<div>
+<button type="button" id="game-ready">
+	<img src="image/ready.png">
+</button>
+</div>
+</div>
+
 </div>
 
 <script src="/jquery-3.2.1.min.js"></script>
