@@ -12,7 +12,7 @@ cc = 0
 
 @app.route('/')
 def index():
-    return send_from_directory('static', 'game.html')
+    return send_from_directory('static', 'room.html')
 
 
 @socketio.on('control')
