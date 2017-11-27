@@ -8,18 +8,21 @@ from queue import Queue
 from tetrisLogic.tetris_config import *
 import threading
 import time
+import json
 
-class shared:
+class Shared:
     socket_out = None
     loser = None
     players = []
+    direction={}
+    game = {}
 
-class player:
-    def __init__(self, username):
-        self.username = username
-        self.ready = False
+class Player:
+    def __init__(self, sid):
+        self.sid = sid
+        self.is_ready = False
     def ready(self):
-        self.ready = not self.ready
+        self.is_ready = not self.is_ready
 
 class Canvas:
     def __init__(self):
@@ -93,11 +96,11 @@ class Block:
 
 #need opponent information
 class Tetris:
-    def __init__(self, index):
+    def __init__(self, sid):
         self.crrt = Block()
         self.canvas = Canvas()
         self.dq = deque()
-        self.index = index
+        self.sid = sid
         self.isStop = False
         self.thread = threading.Thread(target=self.run)
         self.thread.start()
@@ -124,7 +127,7 @@ class Tetris:
 
     def stop_game(self):
         self.isStop = True
-        shared.loser = self.index
+        Shared.loser = self.sid
         print('end')
     def operate(self, instruction):
         if self.isStop is False:
@@ -132,13 +135,13 @@ class Tetris:
 
     def run(self):
         self.draw()
-        while self.isStop is False and shared.loser is None:
+        while self.isStop is False and Shared.loser is None:
             if len(self.dq):
                 instruction = self.dq.popleft()
                 self.crrt.operate(instruction)
                 picture = self.draw()
                 if picture is not None:
-                    shared.socket_out.emit('game', {'index':self.index, 'picture':str(picture.tolist())}, namespace='/game')
+                    Shared.socket_out.emit('game_msg', json.dumps({'player':Shared.direction[self.sid], 'bitmap':(picture[0:-1,1:-1].tolist())}), namespace='/game')
             else:
                 time.sleep(0.01)
 

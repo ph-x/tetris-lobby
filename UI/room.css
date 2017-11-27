@@ -1,0 +1,159 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+html {
+	background-image: url(image/grid-bg.png);
+}
+
+#box {
+	display: flex;
+}
+
+#left {
+	display: flex;
+	flex-direction: column;
+	width: calc(100% - 530px);
+	height: 100%;
+	min-width: 300px;
+	max-width: 500px;
+}
+
+#right {
+	padding-left: 10px;
+	right: 0;
+	height: 100vh;
+	width: 600px;
+	min-width:600px;
+}
+
+#user-info {
+	float: left;
+	height: 400px;
+}
+
+#user-info-1, #user-info-2 {
+	width: 300px;
+	height: 125px;
+	padding-top: 75px;
+	text-align: center;
+	margin: 0 auto;
+	background-image: url(image/user-info.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	font-size: 25px;
+}
+
+#chat-area {
+	padding: 0 0;
+	float: left;
+	height: calc(100vh - 400px);
+	width: 100%;
+	background-image: url(image/chatbox.png);
+	background-size: 100% 100%;
+}
+
+#chat-msgs {
+	height: calc(100% - 60px);
+	margin: 0 10px;
+	background-image: url(image/msgbox.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+	padding: 0px 0px;
+}
+
+#chat-msgs li {
+	display: block;
+}
+
+#chat-input {
+	display: flex;
+	flex-direction: row;
+	height: 55px;
+}
+
+#chat-box {
+	height: 43px;
+	margin-left: 10px;
+	width: calc(100% - 50px);
+	background-image: url(image/msginputbox.png);
+	background-size: 100% 100%;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+#chat-box input {
+	border: hidden;
+	background: transparent;
+	margin-left: 5px;
+	width: calc(100% - 5px);
+	height: calc(100% - 5px);
+}
+
+#chat-submit {
+	border: hidden;
+	padding: 0;
+	width: 50px;
+	height: 43px;
+	background: transparent;
+}
+
+#chat-submit img {
+	width: 45px;
+	float: left;
+}
+
+#game-area {
+	height: 602px;
+	display: flex;
+}
+
+#game-l {
+	padding: 37px 20px;
+	width: 240px;
+	height: 528px;
+	float: left;
+	background-image: url(image/gamebox-l.png);
+	background-size:100% 100%;
+}
+
+#game-r {
+	padding: 37px 20px;
+	width: 240px;
+	height: 528px;
+	float: left;
+	background-image: url(image/gamebox-r.png);
+	background-size:100% 100%;
+}
+
+#game-ready {
+	width: 300px;
+	position: absolute;
+	left: 50%;
+	background: transparent;
+	border: transparent;
+	outline: none;
+}
+
+#game-ready img {
+	width: 100%;
+}
+
+#game-ready img:hover {
+	width: 310px;
+	margin-top: -2px;
+	margin-left: -5px;
+}
+
+#game-ready img:active {
+	width: 300px;
+	margin: 0 0;
+}

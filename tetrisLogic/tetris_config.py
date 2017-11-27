@@ -1,5 +1,5 @@
-height = 10
-width = 10
+height = 23
+width = 12
 
 tile_T = [
     [0, 1, 0],

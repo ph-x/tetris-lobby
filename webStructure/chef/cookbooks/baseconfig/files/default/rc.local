@@ -1,0 +1,2 @@
+#!/bin/sh
+sleep 10 | /usr/local/bin/uwsgi --ini /home/ubuntu/project/webroot/uwsgi.ini --daemonize /var/log/mysite.log
