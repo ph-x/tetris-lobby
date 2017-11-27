@@ -5,6 +5,7 @@ from flask_socketio import SocketIO, Namespace, emit, join_room, leave_room, \
 from tetrisLogic import tetris_logic
 import eventlet
 import redis
+import json
 eventlet.monkey_patch()
 
 app = Flask(__name__)
@@ -35,15 +36,15 @@ def start_game():
     game = {}
     for psid in tetris_logic.Shared.players:
         game[psid]=tetris_logic.Tetris(psid)
-        if len(tetris_logic.Shared.direction) is 0:
-            tetris_logic.Shared.direction[psid]='left'
-        else:
-            tetris_logic.Shared.direction[psid]='right'
     tetris_logic.Shared.loser = None
     tetris_logic.Shared.game = game
+    tetris_logic.Shared.game_status = 'on'
+    socketio.emit('game_status', json.dumps({'action':'start'}), namespace = '/game')
 #unsecure, require user authentication
 @socketio.on('ready', namespace='/game')
 def on_ready(data):
+    if tetris_logic.Shared.game_status is 'on':
+        return
     print(request.sid)
     for psid in tetris_logic.Shared.players:
         player = tetris_logic.Shared.players[psid]

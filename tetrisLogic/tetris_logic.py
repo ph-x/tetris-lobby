@@ -14,8 +14,8 @@ class Shared:
     socket_out = None
     loser = None
     players = {}
-    direction={}
     game = {}
+    game_status = 'waiting'
 
 class Player:
     def __init__(self, sid):
@@ -128,6 +128,16 @@ class Tetris:
     def stop_game(self):
         self.isStop = True
         Shared.loser = self.sid
+        Shared.game_status = 'end'
+        for psid in Shared.players:
+            Shared.players[psid].is_ready = False
+            data = {'action':'end'}
+            if psid is self.sid:
+                data['loser']='left'
+            else:
+                data['loser']='right'
+            Shared.socket_out.emit('game_status', json.dumps(data), room=psid, namespace = '/game')
+            Shared.game = {}
         print('end')
     def operate(self, instruction):
         if self.isStop is False:
@@ -140,14 +150,15 @@ class Tetris:
                 instruction = self.dq.popleft()
                 self.crrt.operate(instruction)
                 picture = self.draw()
-                if picture is not None:
-                    data = {'bitmap':(picture[0:-1,1:-1].tolist())}
-                    for psid in Shared.players:
-                        if psid is self.sid:
-                            data['player'] = 'left'
-                        else:
-                            data['player'] = 'right'
-                        Shared.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
+                if picture is None:
+                    continue
+                data = {'bitmap':(picture[0:-1,1:-1].tolist())}
+                for psid in Shared.players:
+                    if psid is self.sid:
+                        data['player'] = 'left'
+                    else:
+                        data['player'] = 'right'
+                    Shared.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
             else:
                 time.sleep(0.01)
 
