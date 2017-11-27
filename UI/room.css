@@ -20,20 +20,20 @@ html {
 #left {
 	display: flex;
 	flex-direction: column;
-	width: 300px;
+	width: calc(100% - 530px);
 	height: 100%;
 }
 
 #right {
-	padding-left: 20px;
+	padding-left: 10px;
 	right: 0;
-	height: 100%;
+	height: 100vh;
 	width: 800px;
 }
 
 #user-info {
 	float: left;
-	width: 300px;
+	width: calc(100% - 530px);
 	height: 400px;
 }
 
@@ -41,7 +41,7 @@ html {
 	padding: 0 0;
 	float: left;
 	height: calc(100vh - 400px);
-	width: 300px;
+	width: 100%;
 	background-image: url(image/chatbox.png);
 	background-size: 100% 100%;
 }
@@ -97,21 +97,33 @@ html {
 	float: left;
 }
 
+#game-area {
+	height: 602px;
+	display: flex;
+}
+
 .game-l {
-	width: 300px;
-	height: calc(100% - 200px);
-	background-image: url(image/gamebox-l);
+	padding: 37px 20px;
+	width: 240px;
+	height: 528px;
+	float: left;
+	background-image: url(image/gamebox-l.png);
 	background-size:100% 100%;
 }
 
 .game-r {
-	width: 300px;
-	background-image: url(image/gamebox-r);
+	padding: 37px 20px;
+	width: 240px;
+	height: 528px;
+	float: left;
+	background-image: url(image/gamebox-r.png);
 	background-size:100% 100%;
 }
 
 #game-ready {
 	width: 300px;
+	position: absolute;
+	left: 50%;
 	background: transparent;
 	border: transparent;
 }
