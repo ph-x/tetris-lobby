@@ -21,6 +21,8 @@ var socket = io.connect("localhost:5000/game");
 
 socket.emit("join", {"room" : 0});
 
+// game_status: 0 -- end, 1 -- start
+var game_status = 0;
 var game_bitmap;
 
 socket.on("game_msg", function (data){
@@ -36,6 +38,32 @@ socket.on("game_msg", function (data){
         game = game2;
     }
     draw_game(game);
+});
+
+socket.on("game_status", function (data){
+    data = JSON.parse(data);
+    var game_action = data['action'];
+
+    if(game_action == "start"){
+        game_status = 1;
+
+        block_group1.removeAll(true, false);
+        block_group2.removeAll(true, false);
+    }
+    else if(game_action == "end"){
+        game_status = 0;
+
+        block_group1.alpha = 0.3;
+        block_group2.alpha = 0.3;
+
+        var loser = data['loser'];
+        if(loser == "left"){
+            console.log("your lose");
+        }
+        else if(loser == "right"){
+            console.log("your win");
+        }
+    }
 });
 
 //////////////////
@@ -161,7 +189,6 @@ function update1() {
             }
         }
     }
-    
 
 }
 
@@ -216,5 +243,9 @@ function render_blocks(blocks, group, x, y){
             the_block.scale.setTo(config.block_width / config.block_image_width, config.block_height / config.block_image_height);
         }
     }
+
+}
+
+function draw_gameover(game) {
 
 }
