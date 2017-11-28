@@ -126,10 +126,10 @@ class Tetris:
         return picture
 
     def self_drop(self):
-        if self.isStop:
+        if self.isStop or Shared.loser is not None:
             return
         self.dq.appendleft('down')
-        t = Timer(2, self.self_drop)
+        t = Timer(1, self.self_drop)
         t.start()
 
     def stop_game(self):
@@ -152,7 +152,6 @@ class Tetris:
             self.dq.append(instruction)
 
     def run(self):
-
         while self.isStop is False and Shared.loser is None:
             if len(self.dq):
                 instruction = self.dq.popleft()

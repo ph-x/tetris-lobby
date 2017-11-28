@@ -40,12 +40,13 @@ def on_join(data):
 
 
 def start_game():
+    print('start')
     game = {}
-    for psid in tetris_logic.Shared.players:
-        game[psid] = tetris_logic.Tetris(psid)
+    tetris_logic.Shared.game_status = 'on'
     tetris_logic.Shared.loser = None
     tetris_logic.Shared.game = game
-    tetris_logic.Shared.game_status = 'on'
+    for psid in tetris_logic.Shared.players:
+        game[psid] = tetris_logic.Tetris(psid)
     socketio.emit('game_status', json.dumps({'action': 'start'}), namespace='/game')
 
 
