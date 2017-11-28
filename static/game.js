@@ -4,7 +4,7 @@
 var config = {
     "key_sensitivity"       : 4,
     "key_up_delay"          : 200,
-    "key_down_delay"        : 100,
+    "key_down_delay"        : 50,
     "key_left_delay"        : 50,
     "key_right_delay"       : 50,
     "block_height"          : 24,
@@ -273,8 +273,9 @@ function regames() {
     // may cause undefined exception
     game1.world.removeAll(true, false);
     game2.world.removeAll(true, false);
-    create1();
-    create2();
+
+    block_group1 = game1.add.group();
+    block_group2 = game2.add.group();
 
 }
 
