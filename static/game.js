@@ -47,8 +47,7 @@ socket.on("game_status", function (data){
     if(game_action == "start"){
         game_status = 1;
 
-        block_group1.removeAll(true, false);
-        block_group2.removeAll(true, false);
+        regames();
     }
     else if(game_action == "end"){
         game_status = 0;
@@ -58,10 +57,12 @@ socket.on("game_status", function (data){
 
         var loser = data['loser'];
         if(loser == "left"){
-            console.log("your lose");
+            draw_message(game1, "You Lose!");
+            draw_message(game2, "Win!");
         }
         else if(loser == "right"){
-            console.log("your win");
+            draw_message(game1, "You Win!");
+            draw_message(game2, "Lose!");
         }
     }
 });
@@ -267,6 +268,27 @@ function render_blocks(blocks, group, x, y){
 
 }
 
-function draw_gameover(game) {
+function regames() {
+
+    // may cause undefined exception
+    game1.removeAll(true, false);
+    game2.removeAll(true, false);
+    create1();
+    create2();
+
+}
+
+function draw_message(game, msg) {
+
+    var bar = game.add.graphics();
+    bar.beginFill(0x000000, 0.2);
+    bar.drawRect(0, game.height / 3, game.width, game.height / 6);
+
+    // font: Comic Sans MS
+    var style = { font: "bold 32px Comic Sans MS", fill: "#fff"};
+
+    text = game.add.text(game.width / 2, game.height * 5 / 12 , msg, style);
+    text.anchor.setTo(0.5);
+    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
 }
