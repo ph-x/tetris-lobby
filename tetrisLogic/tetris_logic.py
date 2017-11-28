@@ -169,18 +169,6 @@ class Tetris:
                     Shared.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
             else:
                 time.sleep(0.01)
-                picture = self.draw()
-                if picture is None:
-                    self.draw()
-                    continue
-
-                data = {'bitmap': (picture[0:-1, 1:-1].tolist())}
-                for psid in Shared.players:
-                    if psid is self.sid:
-                        data['player'] = 'left'
-                    else:
-                        data['player'] = 'right'
-                    Shared.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
 
 
 if __name__ == '__main__':
