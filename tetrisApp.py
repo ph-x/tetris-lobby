@@ -42,7 +42,8 @@ def on_join(data):
 @socketio.on('leave', namespace='/game')
 def on_leave():
     print('leave')
-    tetris_logic.Shared.game[request.sid].stop_game()
+    if request.sid in tetris_logic.Shared.game:
+        tetris_logic.Shared.game[request.sid].stop_game()
     if request.sid in tetris_logic.Shared.players:
         del tetris_logic.Shared.players[request.sid]
 
