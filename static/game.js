@@ -271,8 +271,8 @@ function render_blocks(blocks, group, x, y){
 function regames() {
 
     // may cause undefined exception
-    game1.removeAll(true, false);
-    game2.removeAll(true, false);
+    game1.world.removeAll(true, false);
+    game2.world.removeAll(true, false);
     create1();
     create2();
 
