@@ -38,6 +38,17 @@ def on_join(data):
         tetris_logic.Shared.players[psid].opponent = current_player
     tetris_logic.Shared.players[sid] = current_player
 
+#need to leave room when room structure is avaliable
+@socketio.on('leave', namespace='/game')
+def on_leave():
+    print('leave')
+    tetris_logic.Shared.game[request.sid].stop_game()
+    if request.sid in tetris_logic.Shared.players:
+        del tetris_logic.Shared.players[request.sid]
+
+@socketio.on('disconnect', namespace='/game')
+def test_disconnect():
+    on_leave()
 
 def start_game():
     print('start')
