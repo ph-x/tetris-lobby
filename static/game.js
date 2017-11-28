@@ -69,9 +69,30 @@ socket.on("game_status", function (data){
 //////////////////
 // room
 
+// ready button
 document.getElementById("game-ready").onclick = function(){
     // debug
     socket.emit("ready", {});
+};
+
+//chat input
+document.getElementById("chat-box").firstElementChild.onkeydown = function(e){
+    if (e.keyCode == 13) {
+        document.getElementById("chat-submit").click();
+    }
+}
+
+// chat submit button
+document.getElementById("chat-submit").onclick = function(){
+
+    var input_box = document.getElementById("chat-box").firstElementChild;
+    var chat_msg = input_box.value;
+    if(chat_msg == ""){
+        return;
+    }
+    input_box.value = "";
+    console.log(chat_msg);
+    socket.emit("chat_msg", chat_msg);
 };
 
 //////////////////
