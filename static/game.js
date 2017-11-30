@@ -156,7 +156,7 @@ function create1() {
         socket.emit("operate", "down");
     });
 
-    // guarantee at least 1 action per operate
+    // eliminate key counter when key is up
     cursors.left.onUp.add(function(){
         key_cumulate = 0;
     });
