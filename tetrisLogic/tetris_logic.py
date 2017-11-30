@@ -4,7 +4,6 @@ from random import randint
 import numpy as np
 from threading import Timer
 from collections import deque
-from queue import Queue
 from tetrisLogic.tetris_config import *
 import threading
 import time

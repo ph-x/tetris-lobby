@@ -24,7 +24,7 @@ def index():
     return send_from_directory('static', 'room.html')
 
 
-# unsecure, require user authentication
+# insecure, require user authentication
 @socketio.on('join', namespace='/game')
 def on_join(data):
     print("join")
@@ -38,7 +38,8 @@ def on_join(data):
         tetris_logic.Shared.players[psid].opponent = current_player
     tetris_logic.Shared.players[sid] = current_player
 
-#need to leave room when room structure is avaliable
+
+# need to leave room when room structure is avaliable
 @socketio.on('leave', namespace='/game')
 def on_leave():
     print('leave')
@@ -47,9 +48,11 @@ def on_leave():
     if request.sid in tetris_logic.Shared.players:
         del tetris_logic.Shared.players[request.sid]
 
+
 @socketio.on('disconnect', namespace='/game')
 def test_disconnect():
     on_leave()
+
 
 def start_game():
     print('start')
@@ -62,7 +65,7 @@ def start_game():
     socketio.emit('game_status', json.dumps({'action': 'start'}), namespace='/game')
 
 
-# unsecure, require user authentication
+# insecure, require user authentication
 @socketio.on('ready', namespace='/game')
 def on_ready(data):
     if tetris_logic.Shared.game_status is 'on':
