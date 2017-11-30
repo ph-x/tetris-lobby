@@ -4,7 +4,7 @@
 var config = {
     "key_sensitivity"       : 4,
     "key_up_delay"          : 200,
-    "key_down_delay"        : 100,
+    "key_down_delay"        : 50,
     "key_left_delay"        : 50,
     "key_right_delay"       : 50,
     "block_height"          : 24,
@@ -21,6 +21,8 @@ var socket = io.connect("localhost:5000/game");
 
 socket.emit("join", {"room" : 0});
 
+// game_status: 0 -- end, 1 -- start
+var game_status = 0;
 var game_bitmap;
 
 socket.on("game_msg", function (data){
@@ -38,12 +40,60 @@ socket.on("game_msg", function (data){
     draw_game(game);
 });
 
+socket.on("game_status", function (data){
+    data = JSON.parse(data);
+    var game_action = data['action'];
+
+    if(game_action == "start"){
+        game_status = 1;
+
+        regames();
+    }
+    else if(game_action == "end"){
+        game_status = 0;
+
+        block_group1.alpha = 0.3;
+        block_group2.alpha = 0.3;
+
+        var loser = data['loser'];
+        if(loser == "left"){
+            draw_message(game1, "You Lose!");
+            draw_message(game2, "Win!");
+        }
+        else if(loser == "right"){
+            draw_message(game1, "You Win!");
+            draw_message(game2, "Lose!");
+        }
+    }
+});
+
 //////////////////
 // room
 
+// ready button
 document.getElementById("game-ready").onclick = function(){
     // debug
     socket.emit("ready", {});
+};
+
+//chat input
+document.getElementById("chat-box").firstElementChild.onkeydown = function(e){
+    if (e.keyCode == 13) {
+        document.getElementById("chat-submit").click();
+    }
+}
+
+// chat submit button
+document.getElementById("chat-submit").onclick = function(){
+
+    var input_box = document.getElementById("chat-box").firstElementChild;
+    var chat_msg = input_box.value;
+    if(chat_msg == ""){
+        return;
+    }
+    input_box.value = "";
+    console.log(chat_msg);
+    socket.emit("chat_msg", chat_msg);
 };
 
 //////////////////
@@ -161,7 +211,6 @@ function update1() {
             }
         }
     }
-    
 
 }
 
@@ -216,5 +265,31 @@ function render_blocks(blocks, group, x, y){
             the_block.scale.setTo(config.block_width / config.block_image_width, config.block_height / config.block_image_height);
         }
     }
+
+}
+
+function regames() {
+
+    // may cause undefined exception
+    game1.world.removeAll(true, false);
+    game2.world.removeAll(true, false);
+
+    block_group1 = game1.add.group();
+    block_group2 = game2.add.group();
+
+}
+
+function draw_message(game, msg) {
+
+    var bar = game.add.graphics();
+    bar.beginFill(0x000000, 0.2);
+    bar.drawRect(0, game.height / 3, game.width, game.height / 6);
+
+    // font: Comic Sans MS
+    var style = { font: "bold 32px Comic Sans MS", fill: "#fff"};
+
+    text = game.add.text(game.width / 2, game.height * 5 / 12 , msg, style);
+    text.anchor.setTo(0.5);
+    text.setShadow(3, 3, 'rgba(0,0,0,0.5)', 2);
 
 }
