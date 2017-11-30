@@ -4,9 +4,9 @@
 var config = {
     "key_sensitivity"       : 4,
     "key_up_delay"          : 200,
-    "key_down_delay"        : 50,
-    "key_left_delay"        : 50,
-    "key_right_delay"       : 50,
+    "key_down_delay"        : 100,
+    "key_left_delay"        : 100,
+    "key_right_delay"       : 100,
     "block_height"          : 24,
     "block_width"           : 24,
     "block_image_height"    : 96,
@@ -154,6 +154,20 @@ function create1() {
     });
     cursors.down.onDown.add(function(){
         socket.emit("operate", "down");
+    });
+
+    // guarantee at least 1 action per operate
+    cursors.left.onUp.add(function(){
+        key_cumulate = 0;
+    });
+    cursors.right.onUp.add(function(){
+        key_cumulate = 0;
+    });
+    cursors.up.onUp.add(function(){
+        key_cumulate = 0;
+    });
+    cursors.down.onUp.add(function(){
+        key_cumulate = 0;
     });
 
 }
