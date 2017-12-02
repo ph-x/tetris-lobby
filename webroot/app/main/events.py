@@ -1,25 +1,8 @@
-from flask import Flask, send_from_directory, request
-from flask_socketio import SocketIO, join_room
-from tetrisLogic import tetris_logic
-import eventlet
-import redis
 import json
-
-eventlet.monkey_patch()
-
-app = Flask(__name__)
-
-pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=0)
-r = redis.Redis(connection_pool=pool)
-
-socketio = SocketIO(app, message_queue='redis://127.0.0.1:6379/0', async_mode="eventlet")
-
-tetris_logic.Shared.socket_out = SocketIO(message_queue='redis://127.0.0.1:6379/0')
-
-
-@app.route('/')
-def index():
-    return send_from_directory('static', 'room.html')
+from app import tetris_logic
+from flask import request
+from flask_socketio import join_room
+from .. import socketio
 
 
 # insecure, require user authentication
@@ -83,7 +66,3 @@ def operate_game(instruction):
     game = tetris_logic.Shared.game
     if len(game) and request.sid in game.keys():
         game[request.sid].operate(instruction=instruction)
-
-
-if __name__ == '__main__':
-    socketio.run(app, debug=True)

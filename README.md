@@ -1,5 +1,5 @@
 # NOTE
-currently, you need "vagrant ssh" first and run "python3 project/webroot/tetrisApp.py" to start service.
+currently, you need "vagrant ssh" first and run "python3 project/webroot/manage.py" to start service and debug.
 
 # README
 1. implement the local tetris game;

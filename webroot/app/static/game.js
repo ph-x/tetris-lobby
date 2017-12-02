@@ -18,6 +18,7 @@ var config = {
 // socket
 
 var socket = io.connect("ws://127.0.0.1:8080/game");
+// var socket = io.connect("http://127.0.0.1:5000/game");
 
 socket.emit("join", {"room" : 0});
 
