@@ -22,7 +22,7 @@ def index():
     return send_from_directory('static', 'room.html')
 
 
-# unsecure, require user authentication
+# insecure, require user authentication
 @socketio.on('join', namespace='/game')
 def on_join(data):
     print(request.sid, "join")
@@ -63,7 +63,7 @@ def start_game():
     socketio.emit('game_status', json.dumps({'action': 'start'}), namespace='/game')
 
 
-# unsecure, require user authentication
+# insecure, require user authentication
 @socketio.on('ready', namespace='/game')
 def on_ready(data):
     if tetris_logic.Shared.game_status is 'on':
