@@ -1,0 +1,65 @@
+html {
+	background-image: url(image/grid-bg.png);
+}
+
+#box {
+	height: 400px;
+	background-image: url(image/signup_box.png);
+	background-size: 500px 300px;
+	background-repeat: no-repeat;
+	background-position: center center;
+}
+
+#user {
+	padding-top:60px;
+	width: 400px;
+	height: 300px;
+	display: block;
+	margin: 0 auto;
+}
+
+input {
+	margin-top: 5px;
+	width: 400px;
+	height: 45px;
+	border: none;
+	background: transparent;
+	font-size: 40px;
+}
+
+#user > label {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 25px;
+}
+
+#signup_btn {
+	display: block;
+	padding: 0 0;
+	margin: 0 auto;
+	background: transparent;
+	border: transparent;
+	outline: none;
+	width: 300px;
+}
+
+#signup_btn img {
+	width: 300px;
+}
+
+#signup_btn img:hover {
+	width: 320px;
+	margin-top: -5px;
+	margin-left: -10px;
+}
+
+#signup_btn img:active {
+	width: 300px;
+	margin: 0 0;
+}
+
+#loginbg {
+	position: absolute;
+	right: 60px;
+	bottom: 20px;
+	width: 300px;
+}
