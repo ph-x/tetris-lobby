@@ -11,10 +11,11 @@ from .. import socketio
 #no conflict exist, no need for lock
 #match_id -> RoomInfo
 match_rminfo = {}
-
-# insecure, require user authentication
-def prepare_game(room_id):
+@socketio.on('join', namespace='/game')
+def prepare_game(data):
     #create new room when
+    room_id = data['room']
+    join_room(room_id)
     if room_id not in match_rminfo:
         match_rminfo[room_id] = tetris_logic.RoomInfo(room_id)
         room_info = match_rminfo[room_id]
@@ -26,9 +27,9 @@ def prepare_game(room_id):
         room_info.players[psid].opponent = current_player
     room_info.players[sid] = current_player
 
-
-# need to leave room when room structure is available
-def leave_game(username):
+@socketio.on('leave', namespace='/game')
+def leave_game():
+    username = current_user.username
     try:
         room_id = lobby.uid_match[username]
         room_info = match_rminfo[room_id]
@@ -42,7 +43,7 @@ def leave_game(username):
 
 @socketio.on('disconnect', namespace='/game')
 def on_disconnect():
-    leave_game(current_user.username)
+    leave_game()
 
 @socketio.on('chat', namespace='/game')
 def chat(data):
