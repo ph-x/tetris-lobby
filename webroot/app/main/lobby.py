@@ -15,11 +15,13 @@ next_match = len(reserved_rooms)
 
 
 class Match:
-    def __init__(self):
-        self.player1 = None
-        self.player2 = None
+    def __init__(self, player1=None, player2=None):
+        self.player1 = player1
+        self.player2 = player2
 
     def add(self, uid):
+        if uid in self:
+            return
         if self.player1 is None:
             self.player1 = uid
         elif self.player2 is None:
@@ -41,6 +43,9 @@ class Match:
     def is_full(self):
         return self.player1 is not None and self.player2 is not None
 
+    def __contains__(self, uid):
+        return self.player1 == uid or self.player2 == uid
+
 
 @main.route('/new_match', methods=['GET'])
 def new_match():
@@ -48,31 +53,38 @@ def new_match():
     with id_lock:
         match_id = next_match
         next_match += 1
-        match_players[match_id] = Match()  # todo: potentially won't be cleaned
+        match_players[match_id] = Match(player1=current_user.id)
     return redirect('/match/{}'.format(match_id))
 
 
 @main.route('/match/<match_id>')
-def join_match(match_id):
-    uid = current_user.id
-    with match_lock:
-        try:
-            players = match_players[match_id]
-        except KeyError:
-            raise RuntimeError(
-                'user {} wants to join nonexistent match {}'.format(uid, match_id))
-        else:
-            if len(players) >= 2:
-                raise RuntimeError('match {} is full'.format(match_id))
-
-            join_room(match_id)
-            uid_match[uid] = match_id
-            match_players[match_id].add(uid)
+def get_match(match_id):
     return send_from_directory('static', 'room.html')
 
 
 @main.route('/lobby')
-def goto_lobby():
+def get_lobby():
+    leave_match()  # todo: change to a better solution
+    return send_from_directory('static', 'lobby.html')
+
+
+def join_match(match_id):
+    uid = current_user.id
+    with match_lock:
+        try:
+            match = match_players[match_id]
+        except KeyError:
+            raise RuntimeError(
+                'user {} wants to join nonexistent match {}'.format(uid, match_id))
+        else:
+            if match.is_full():
+                raise RuntimeError('match {} is full'.format(match_id))
+            join_room(match_id)
+            uid_match[uid] = match_id
+            match_players[match_id].add(uid)
+
+
+def leave_match():
     uid = current_user.id
     with match_lock:
         try:
@@ -85,7 +97,6 @@ def goto_lobby():
             match_players[match_id].remove(uid)
             if match_players[match_id].is_empty():
                 del match_players[match_id]
-    return send_from_directory('static', 'lobby.html')
 
 
 def all_matches():
