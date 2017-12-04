@@ -1,6 +1,6 @@
 import threading
 from flask_socketio import join_room, leave_room
-from webroot.app.main import main
+from app.main import main
 from flask_login import current_user
 from flask import send_from_directory, redirect
 
@@ -59,6 +59,18 @@ def new_match():
 
 @main.route('/match/<match_id>')
 def get_match(match_id):
+    uid = current_user.id
+    with match_lock:
+        try:
+            match = match_players[match_id]
+        except KeyError:
+            raise RuntimeError(
+                'user {} wants to join nonexistent match {}'.format(uid, match_id))
+        else:
+            if match.is_full():
+                raise RuntimeError('match {} is full'.format(match_id))
+            uid_match[uid] = match_id
+            match_players[match_id].add(uid)
     return send_from_directory('static', 'room.html')
 
 
@@ -68,7 +80,7 @@ def get_lobby():
     return send_from_directory('static', 'lobby.html')
 
 
-def join_match(match_id):
+def join_match(match_id):  # todo: change
     uid = current_user.id
     with match_lock:
         try:

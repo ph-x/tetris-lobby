@@ -1,20 +1,21 @@
 import json
-import lobby
-from app import tetris_logic
+from . import lobby
+from app.tetrisLogic import tetris_logic
 from flask import request
 from flask_socketio import join_room
 from flask_login import current_user
 from .. import socketio
 
-#a match is equavilent to a room
+# a match is equavilent to a room
 
-#no conflict exist, no need for lock
-#match_id -> RoomInfo
+# no conflict exist, no need for lock
+# match_id -> RoomInfo
 match_rminfo = {}
+
 
 # insecure, require user authentication
 def prepare_game(room_id):
-    #create new room when
+    # create new room when
     if room_id not in match_rminfo:
         match_rminfo[room_id] = tetris_logic.RoomInfo(room_id)
         room_info = match_rminfo[room_id]
@@ -51,11 +52,11 @@ def start_game(room_id):
     except KeyError:
         raise RuntimeError('room {} does not exist'.format(room_id))
     game = {}
-    #init room
+    # init room
     room_info.game_status = 'on'
     room_info.loser = None
     room_info.game = game
-    #start games
+    # start games
     for psid in room_info.players:
         game[psid] = tetris_logic.Tetris(sid=psid, room_info=room_info)
     socketio.emit('game_status', json.dumps({'action': 'start'}), namespace='/game')
@@ -69,7 +70,7 @@ def on_ready(data):
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a room'.format(username))
-    #block ready message when game is on
+    # block ready message when game is on
     if room_info.game_status is 'on':
         return
     if request.sid in room_info.players:
@@ -78,6 +79,7 @@ def on_ready(data):
         print(player.is_ready)
         if player.opponent is not None and player.opponent.is_ready:
             start_game(room_id)
+
 
 @socketio.on('operate', namespace='/game')
 def operate_game(instruction):
