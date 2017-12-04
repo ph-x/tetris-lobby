@@ -2,7 +2,7 @@ import json
 import lobby
 from app import tetris_logic
 from flask import request
-from flask_socketio import join_room
+from flask_socketio import join_room, rooms
 from flask_login import current_user
 from .. import socketio
 
@@ -44,6 +44,11 @@ def leave_game(username):
 def on_disconnect():
     leave_game(current_user.username)
 
+@socketio.on('chat', namespace='/game')
+def chat(data):
+    room_list = rooms()
+    for room in room_list:
+        socketio.emit('chat', data, room=room, namespace='/game')
 
 def start_game(room_id):
     try:
