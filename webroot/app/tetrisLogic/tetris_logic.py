@@ -9,25 +9,28 @@ import threading
 import time
 import json
 
-#room details, destroyed when no player in room
+
+# room details, destroyed when no player in room
 class RoomInfo:
-    def __init__(room_id):
+    def __init__(self, room_id):
         self.socket_out = children_socket
         self.loser = None
-        #sid -> Player
+        # sid -> Player
         self.players = {}
-        #sid -> Tetris
+        # sid -> Tetris
         self.game = {}
-        #game status : waiting, on, end
+        # game status : waiting, on, end
         self.game_status = 'waiting'
         self.room_id = room_id
 
-#player in room, destroyed when quit
+
+# player in room, destroyed when quit
 class Player:
     def __init__(self, sid, username):
         self.sid = sid
         self.username = username
         self.is_ready = False
+
     def ready(self):
         self.is_ready = not self.is_ready
 
@@ -177,5 +180,5 @@ class Tetris:
 
 
 if __name__ == '__main__':
-    tetris = Tetris(sid='test')
+    tetris = Tetris(sid='test', room_info=None)
     tetris.run()

@@ -1,6 +1,6 @@
 import threading
 from flask_socketio import join_room, leave_room
-from webroot.app.main import main
+from app.main import main
 from flask_login import current_user
 from flask import send_from_directory, redirect
 
