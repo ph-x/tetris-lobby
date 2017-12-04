@@ -77,7 +77,7 @@ document.getElementById("game-ready").onclick = function(){
     socket.emit("ready", {});
 };
 
-//chat input
+//chat input hotkey (enter)
 document.getElementById("chat-box").firstElementChild.onkeydown = function(e){
     if (e.keyCode == 13) {
         document.getElementById("chat-submit").click();

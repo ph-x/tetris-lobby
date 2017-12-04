@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+<title>Login</title>
+<link rel="stylesheet" title="text/css" href="/static/login.css" />
+</head>
+
+<body>
+
+<div id="login_ico">
+	<img src="/static/image/login_ico.png" width="500">
+</div>
+
+<div id="box">
+	<div id="user">
+		<form class="form" method="POST">
+			{{ form.hidden_tag() }}
+			{{ form.username.label }}
+			{{ form.username() }}
+			{{ form.password.label }}
+			{{ form.password() }}
+			{{ form.submit(value="login") }}
+		</form>
+	</div>
+</div>
+
+
+<div id="buttons">
+	<button type="button" id="signup_btn" onclick="{location.href='{{ url_for('auth.register')}}'}">
+		<img src="/static/image/signup_btn.png" width=100px>
+	</button>
+</div>
+
+<img id="loginbg" src="/static/image/login_bg.png">
+
+</body>
+
+</html>

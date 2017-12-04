@@ -2,7 +2,7 @@ import json
 from . import lobby
 from app.tetrisLogic import tetris_logic
 from flask import request
-from flask_socketio import join_room
+from flask_socketio import join_room, rooms
 from flask_login import current_user
 from .. import socketio
 
@@ -13,9 +13,11 @@ from .. import socketio
 match_rminfo = {}
 
 
-# insecure, require user authentication
-def prepare_game(room_id):
+@socketio.on('join', namespace='/game')
+def prepare_game(data):
     # create new room when
+    room_id = data['room']
+    join_room(room_id)
     if room_id not in match_rminfo:
         match_rminfo[room_id] = tetris_logic.RoomInfo(room_id)
         room_info = match_rminfo[room_id]
@@ -28,8 +30,9 @@ def prepare_game(room_id):
     room_info.players[sid] = current_player
 
 
-# need to leave room when room structure is available
-def leave_game(username):
+@socketio.on('leave', namespace='/game')
+def leave_game():
+    username = current_user.username
     try:
         room_id = lobby.uid_match[username]
         room_info = match_rminfo[room_id]
@@ -43,7 +46,14 @@ def leave_game(username):
 
 @socketio.on('disconnect', namespace='/game')
 def on_disconnect():
-    leave_game(current_user.username)
+    leave_game()
+
+
+@socketio.on('chat', namespace='/game')
+def chat(data):
+    room_list = rooms()
+    for room in room_list:
+        socketio.emit('chat', data, room=room, namespace='/game')
 
 
 def start_game(room_id):
@@ -69,7 +79,7 @@ def on_ready(data):
         room_id = lobby.uid_match[current_user.username]
         room_info = match_rminfo[room_id]
     except KeyError:
-        raise RuntimeError('user {} is not in a room'.format(username))
+        raise RuntimeError('user {} is not in a room'.format(current_user.username))
     # block ready message when game is on
     if room_info.game_status is 'on':
         return
@@ -87,7 +97,7 @@ def operate_game(instruction):
         room_id = lobby.uid_match[current_user.username]
         room_info = match_rminfo[room_id]
     except KeyError:
-        raise RuntimeError('user {} is not in a room'.format(username))
+        raise RuntimeError('user {} is not in a room'.format(current_user.username))
     game = room_info.game
     if len(game) and request.sid in game.keys():
         game[request.sid].operate(instruction=instruction)
