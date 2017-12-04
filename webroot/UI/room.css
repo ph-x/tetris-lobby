@@ -61,17 +61,38 @@ html {
 }
 
 #chat-msgs {
-	height: calc(100% - 60px);
-	margin: 0 10px;
+	height: calc(100% - 90px);
+	margin: 5px 10px;
+	padding-top: 25px;
+	padding-left: 10px;
 	background-image: url(image/msgbox.png);
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	background-position: center center;
-	padding: 0px 0px;
+	overflow: auto;
+}
+
+#chat-msgs::-webkit-scrollbar {
+	display: none;
 }
 
 #chat-msgs li {
 	display: block;
+	width: 100%;
+}
+
+#chat-msgs li .player {
+	font-size: 18px;
+	color: green;
+}
+
+#chat-msgs li .content {
+	font-size: 20px;
+	margin-left: 20px;
+	margin-right: 2px;
+	color: blue;
+	word-wrap: break-word; 
+	word-break: normal;
 }
 
 #chat-input {
@@ -91,6 +112,7 @@ html {
 }
 
 #chat-box input {
+	font-size: 20px;
 	border: hidden;
 	background: transparent;
 	margin-left: 5px;
