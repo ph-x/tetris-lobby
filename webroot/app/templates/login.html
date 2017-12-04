@@ -10,24 +10,25 @@
 <body>
 
 <div id="login_ico">
-	<img src="image/login_ico.png" width="500">
+	<img src="/static/image/login_ico.png" width="500">
 </div>
 
 <div id="box">
 	<div id="user">
 		<form class="form" method="POST">
 			{{ form.hidden_tag() }}
-			<label for="username">{{ form.username.label }}</label>
+			{{ form.username.label }}
 			{{ form.username() }}
-			<label for="password">{ form.password.label }}</label>
-			{{{ form.password() }}
-			{{ form.submit() }}
+			{{ form.password.label }}
+			{{ form.password() }}
+			{{ form.submit(value="login") }}
 		</form>
 	</div>
 </div>
 
+
 <div id="buttons">
-	<button type="button" id="signup_btn">
+	<button type="button" id="signup_btn" onclick="{location.href='{{ url_for('auth.register')}}'}">
 		<img src="/static/image/signup_btn.png" width=100px>
 	</button>
 </div>

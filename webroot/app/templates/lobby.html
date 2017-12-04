@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="utf-8">
+<title>Tetris Game Lobby</title>
+<link rel="stylesheet" title="text/css" href="/static/lobby.css" />
+</head>
+
+<body>
+
+<div class="box">
+<div id="left">
+	<div id="current-user">
+	<ul id="user-info">
+		<li>C.C</li>
+	</ul>
+	
+	<button type="button" id="logout">
+		<img src="/static/image/logout_btn.png">
+	</button>
+	</div>
+
+	<ul id="players">
+		<li>Player_1</li>
+		<li>Player_2</li>
+	</ul>
+</div>
+
+<div id="right">
+	<div id="rooms-outline">
+	<ul id="rooms">
+		<li><button type="button"><p>player_1</p><p>player_2</p></button></li>
+		<li><button type="button"><p>player_1</p><p>player_2</p></button></li>
+		<li><button type="button"><p>player_1</p><p>player_2</p></button></li>
+		<li><button type="button"><p>player_1</p><p>player_2</p></button></li>
+		<li><button type="button"><p>player_1</p><p>player_2</p></button></li>
+		<li><button type="button"><p>player_1</p><p>player_2</p></button></li>
+	</ul>
+	</div>
+	
+	<div id="newroom">
+	<button type="button" id="newroom_btn">
+	</button>
+	</div>
+
+	<div id="chat-area">
+		<ul id="chat-msgs">
+			<li><p class="player">player1:</p><p class="content">hello</p></li>
+			<li><p class="player">player2:</p><p class="content">=w=</p></li>
+			<li><p class="player">player2:</p><p class="content">ardfjhaerjenargztfhjaetfghqaerjbniujfgbvsaiuerhbfngvuhaeujrghf</p></li>
+			<li><p class="player">player2:</p><p class="content">ardfjhaerjenargztfhjaetfghqaerjbniujfgbvsaiuerhbfngvuhaeujrghf</p></li>
+			<li><p class="player">player2:</p><p class="content">ardfjhaerjenargztfhjaetfghqaerjbniujfgbvsaiuerhbfngvuhaeujrghf</p></li>
+		</ul>
+		<div id="chat-input">
+		<div id="chat-box">
+			<input type="text"></input>
+		</div>
+		<button type="button" id="chat-submit">
+			<img src="/static/image/submit.png">
+		</button>
+		</div>
+	</div>
+</div>
+</div>
+
+<script src="/static/socket.io.js"></script>
+<script src="/static/lobby.js"></script>
+
+</body>
+</html>
