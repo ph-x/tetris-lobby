@@ -4,24 +4,30 @@ import numpy as np
 from threading import Timer
 from collections import deque
 from .tetris_config import *
+from .. import children_socket
 import threading
 import time
 import json
 
+#room details, destroyed when no player in room
+class RoomInfo:
+    def __init__(room_id):
+        self.socket_out = children_socket
+        self.loser = None
+        #sid -> Player
+        self.players = {}
+        #sid -> Tetris
+        self.game = {}
+        #game status : waiting, on, end
+        self.game_status = 'waiting'
+        self.room_id = room_id
 
-class Shared:
-    socket_out = None
-    loser = None
-    players = {}
-    game = {}
-    game_status = 'waiting'
-
-
+#player in room, destroyed when quit
 class Player:
-    def __init__(self, sid):
+    def __init__(self, sid, username):
         self.sid = sid
+        self.username = username
         self.is_ready = False
-
     def ready(self):
         self.is_ready = not self.is_ready
 
@@ -101,11 +107,12 @@ class Block:
 
 # need opponent information
 class Tetris:
-    def __init__(self, sid):
+    def __init__(self, sid, room_info):
         self.crrt = Block()
         self.canvas = Canvas()
         self.dq = deque()
         self.sid = sid
+        self.room_info = room_info
         self.isStop = False
         self.thread = threading.Thread(target=self.run)
         self.thread.start()
@@ -124,7 +131,7 @@ class Tetris:
         return picture
 
     def self_drop(self):
-        if self.isStop or Shared.loser is not None:
+        if self.isStop or self.room_info.loser is not None:
             return
         self.dq.appendleft('down')
         t = Timer(1, self.self_drop)
@@ -133,24 +140,24 @@ class Tetris:
     def stop_game(self):
         self.isStop = True
         print('end')
-        Shared.loser = self.sid
-        Shared.game_status = 'end'
-        for psid in Shared.players:
-            Shared.players[psid].is_ready = False
+        self.room_info.loser = self.sid
+        self.room_info.game_status = 'end'
+        for psid in self.room_info.players:
+            self.room_info.players[psid].is_ready = False
             data = {'action': 'end'}
             if psid is self.sid:
                 data['loser'] = 'left'
             else:
                 data['loser'] = 'right'
-            Shared.socket_out.emit('game_status', json.dumps(data), room=psid, namespace='/game')
-            Shared.game = {}
+            self.room_info.socket_out.emit('game_status', json.dumps(data), room=psid, namespace='/game')
+            self.room_info.game = {}
 
     def operate(self, instruction):
         if self.isStop is False:
             self.dq.append(instruction)
 
     def run(self):
-        while self.isStop is False and Shared.loser is None:
+        while self.isStop is False and self.room_info.loser is None:
             if len(self.dq):
                 instruction = self.dq.popleft()
                 self.crrt.operate(instruction)
@@ -159,12 +166,12 @@ class Tetris:
                     self.draw()
                     continue
                 data = {'bitmap': (picture[0:-1, 1:-1].tolist())}
-                for psid in Shared.players:
+                for psid in self.room_info.players:
                     if psid is self.sid:
                         data['player'] = 'left'
                     else:
                         data['player'] = 'right'
-                    Shared.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
+                    self.room_info.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
             else:
                 time.sleep(0.01)
 
