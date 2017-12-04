@@ -5,7 +5,6 @@ from flask_bootstrap import Bootstrap
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 from flask_socketio import SocketIO
-from .tetrisLogic import tetris_logic
 from config import config
 
 eventlet.monkey_patch()
@@ -13,7 +12,7 @@ eventlet.monkey_patch()
 pool = redis.ConnectionPool(host='127.0.0.1', port=6379, db=0)
 r = redis.Redis(connection_pool=pool)
 
-tetris_logic.Shared.socket_out = SocketIO(message_queue='redis://127.0.0.1:6379/0')
+children_socket = SocketIO(message_queue='redis://127.0.0.1:6379/0')
 
 bootstrap = Bootstrap()
 db = SQLAlchemy()
