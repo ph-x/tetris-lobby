@@ -20,7 +20,7 @@ def on_join(data):
     tetris_logic.Shared.players[sid] = current_player
 
 
-# need to leave room when room structure is avaliable
+# need to leave room when room structure is available
 @socketio.on('leave', namespace='/game')
 def on_leave():
     print(request.sid, 'leave')
