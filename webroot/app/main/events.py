@@ -49,8 +49,8 @@ def on_join(data):
     join_room(room_id)
     # add the player to detail room info, if room info does not exist, create one
     if room_id not in match_rminfo:
-        match_rminfo[room_id] = tetris_logic.RoomInfo(room_id)
-        room_info = match_rminfo[room_id]
+        match_rminfo[int(room_id)] = tetris_logic.RoomInfo(room_id)
+    room_info = match_rminfo[int(room_id)]
     sid = request.sid
     current_player = tetris_logic.Player(sid=sid, username=crsid)
     current_player.opponent = None
@@ -58,7 +58,8 @@ def on_join(data):
         current_player.opponent = room_info.players[psid]
         room_info.players[psid].opponent = current_player
     room_info.players[sid] = current_player
-    player_update(room_id)
+    player_update(room_info)
+    print('join', )
 
 
 def leave_game():
@@ -66,7 +67,7 @@ def leave_game():
     username = crsid
     try:
         room_id = lobby.sid_match[username]
-        room_info = match_rminfo[room_id]
+        room_info = match_rminfo[int(room_id)]
     except KeyError:
         raise RuntimeError('user {} is not in a game'.format(username))
     # stop game if some players left
@@ -76,14 +77,14 @@ def leave_game():
     leave_room(room_id)
     # delete room info if no players left
     if len(room_info.players) is 0:
-        del match_rminfo[room_id]
+        del match_rminfo[int(room_id)]
         return
     # otherwise maintain room info and remove the player properly
     if request.sid in room_info.players:
         if room_info.players[request.sid].opponent is not None:
             room_info.players[request.sid].opponent.opponent = None
         del room_info.players[request.sid]
-    player_update(room_id)
+    player_update(room_info)
 
 
 @socketio.on('disconnect', namespace='/game')
@@ -119,7 +120,7 @@ def chat_copy(data):
 
 def start_game(room_id):
     try:
-        room_info = match_rminfo[room_id]
+        room_info = match_rminfo[int(room_id)]
     except KeyError:
         raise RuntimeError('room {} does not exist'.format(room_id))
     game = {}
@@ -137,9 +138,10 @@ def start_game(room_id):
 @socketio.on('ready', namespace='/game')
 def on_ready():
     crsid = request.sid
+    print(match_rminfo)
     try:
         room_id = lobby.sid_match[crsid]
-        room_info = match_rminfo[room_id]
+        room_info = match_rminfo[int(room_id)]
     except KeyError:
         raise RuntimeError('user {} is not in a room'.format(crsid))
     # block ready message when game is on
@@ -159,7 +161,7 @@ def operate_game(data):
     crsid = request.sid
     try:
         room_id = lobby.sid_match[crsid]
-        room_info = match_rminfo[room_id]
+        room_info = match_rminfo[int(room_id)]
     except KeyError:
         raise RuntimeError('user {} is not in a room'.format(crsid))
     game = room_info.game
