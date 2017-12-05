@@ -17,9 +17,10 @@ var config = {
 //////////////////
 // socket
 
-var socket = io.connect("ws://127.0.0.1:8080/game");
+var socket = io.connect("127.0.0.1:8080/game");
 // var socket = io.connect("http://127.0.0.1:5000/game");
 
+// TODO: room_id
 socket.emit("join", {"room" : 0});
 
 // game_status: 0 -- end, 1 -- start
@@ -32,10 +33,10 @@ socket.on("game_msg", function (data){
     game_bitmap = data['bitmap'];
     var player = data['player'];
 
-    if(player == "left"){
+    if(player == "self"){
         game = game1;
     }
-    else if(player == "right"){
+    else if(player == "other"){
         game = game2;
     }
     draw_game(game);
@@ -57,11 +58,11 @@ socket.on("game_status", function (data){
         block_group2.alpha = 0.3;
 
         var loser = data['loser'];
-        if(loser == "left"){
+        if(loser == "self"){
             draw_message(game1, "You Lose!");
             draw_message(game2, "Win!");
         }
-        else if(loser == "right"){
+        else if(loser == "other"){
             draw_message(game1, "You Win!");
             draw_message(game2, "Lose!");
         }
@@ -74,7 +75,7 @@ socket.on("game_status", function (data){
 // ready button
 document.getElementById("game-ready").onclick = function(){
     // debug
-    socket.emit("ready", {});
+    socket.emit("ready");
 };
 
 //chat input hotkey (enter)
@@ -120,6 +121,30 @@ socket.on("chat_msg", function (data){
     // append element to the chat area
     document.getElementById("chat-msgs").appendChild(msg_node);
 
+});
+
+// player updated
+socket.on("player_update", function (data){
+    data = JSON.parse(data);
+    var player1_info = data['player1'];
+    var player2_info = data['player2'];
+    if (player2_info == 0){
+        player2_info = "None";
+    }
+
+    // remove elements from info area
+    document.getElementById("user-info-1").removeChild(document.getElementById("user-info-1").firstChild);
+    document.getElementById("user-info-2").removeChild(document.getElementById("user-info-2").firstChild);
+
+    // make P elements
+    var player1_node = document.createElement("p");
+    var player2_node = document.createElement("p");
+    player1_node.innterHTML = player1_info;
+    player2_node.innterHTML = player2_info;
+
+    // append elements to info area
+    document.getElementById("user-info-1").appendChild(player1_node);
+    document.getElementById("user-info-2").appendChild(player2_node);
 });
 
 //////////////////
@@ -170,16 +195,16 @@ function create1() {
 
     // guarantee at least 1 action per operate
     cursors.left.onDown.add(function(){
-        socket.emit("operate", "left");
+        socket.emit("operate", {"instrcution": "left"});
     });
     cursors.right.onDown.add(function(){
-        socket.emit("operate", "right");
+        socket.emit("operate", {"instrcution": "right"});
     });
     cursors.up.onDown.add(function(){
-        socket.emit("operate", "up");
+        socket.emit("operate", {"instrcution": "up"});
     });
     cursors.down.onDown.add(function(){
-        socket.emit("operate", "down");
+        socket.emit("operate", {"instrcution": "down"});
     });
 
     // eliminate key counter when key is up
@@ -217,7 +242,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", "left");
+                socket.emit("operate", {"instrcution": "left"});
             }
         }
     }
@@ -227,7 +252,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", "right");
+                socket.emit("operate", {"instrcution": "right"});
             }
         }
     }
@@ -237,7 +262,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", "up");
+                socket.emit("operate", {"instrcution": "up"});
             }
         }
     }
@@ -247,7 +272,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", "down");
+                socket.emit("operate", {"instrcution": "down"});
             }
         }
     }

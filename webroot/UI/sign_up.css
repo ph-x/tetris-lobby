@@ -2,10 +2,17 @@ html {
 	background-image: url(image/grid-bg.png);
 }
 
+#signup_ico img {
+	width: 400px;
+	display: block;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
 #errmsg {
 	text-align: center;
 	padding: 0 0;
-	margin-top: 45px;
 	margin-bottom: -45px;
 	color: red;
 	font-size: 23px;
@@ -72,4 +79,5 @@ input {
 	right: 60px;
 	bottom: 20px;
 	width: 300px;
+	z-index: -1;
 }
