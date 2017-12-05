@@ -87,7 +87,7 @@ def join_match(match_id, sid):
             # create new match or reject
             with id_lock:
                 highest_id = next_match
-            if match_id > highest_id:
+            if match_id >= highest_id:
                 # reject
                 print('rejecting create room {}!'.format(match_id))
                 raise JoinFailureError(
