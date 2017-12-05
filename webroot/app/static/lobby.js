@@ -50,6 +50,9 @@ socket.on("room_list", function (data){
 
         var player1_info = rooms[i]['player1'];
         var player2_info = rooms[i]['player2'];
+        if (player2_info == null) {
+            player2_info = "\0";
+        }
         var player1_node = document.createElement("P");
         //player1_node.innerHTML = player1_info;
         var textnode = document.createTextNode(player1_info);
@@ -104,6 +107,12 @@ socket.on("chat_msg", function (data){
     // append element to the chat area
     document.getElementById("chat-msgs").appendChild(msg_node);
 
+    //scroll chat area to bottom
+    var chat_area = document.getElementById("chat-msgs");
+    console.log("off " + chat_area.scrollHeight);
+    console.log("clientH " + chat_area.clientHeight);
+    chat_area.scrollTop = chat_area.scrollHeight - chat_area.clientHeight;
+    
 });
 
 // create response
