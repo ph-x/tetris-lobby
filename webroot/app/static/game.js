@@ -110,16 +110,17 @@ document.getElementById("chat-submit").onclick = function(){
 // chat msg received
 socket.on("chat_msg", function (data){
     data = JSON.parse(data);
-    var players = data['player'];
+    var player = data['player'];
     var msg = data['message'];
+    var textnode; 
 
     // make a LI element
     var msg_node = document.createElement("LI");
 
     var player_info = document.createElement("P");
     player_info.class = "player";
-    //player_info.innerHTML = msg + ":";
-    var textnode = document.createTextNode(player + ":");
+    //player_info.innerHTML = player + ":";
+    textnode = document.createTextNode(player + ":");
     player_info.appendChild(textnode);
 
     var msg_info = document.createElement("P");
@@ -131,6 +132,7 @@ socket.on("chat_msg", function (data){
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
 
+    console.log(msg_node.innerHTML)
     // append element to the chat area
     document.getElementById("chat-msgs").appendChild(msg_node);
 

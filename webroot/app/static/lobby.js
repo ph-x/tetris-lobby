@@ -87,18 +87,17 @@ socket.on("chat_msg", function (data){
     //player_info.innerHTML = player + ":";
     textnode = document.createTextNode(player + ":");
     player_info.appendChild(textnode);
-    console.log("player_node: " + player_info.innerHTML);
 
     var msg_info = document.createElement("P");
     msg_info.class = "content";
     //msg_info.innerHTML = msg;
     textnode = document.createTextNode(msg);
     msg_node.appendChild(textnode);
-    console.log("msg_node: " + msg_info.innerHTML);
 
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
 
+    console.log(msg_node.innerHTML)
     // append element to the chat area
     document.getElementById("chat-msgs").appendChild(msg_node);
 
