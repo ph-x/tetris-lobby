@@ -53,7 +53,7 @@ socket.on("room_list", function (data){
 });
 
 // chat msg received
-socket.on("chat_msg", fucntion (data){
+socket.on("chat_msg", function (data){
 	data = JSON.parse(data);
     var players = data['player'];
     var msg = data['message'];

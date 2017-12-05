@@ -13,7 +13,6 @@ html {
 	position: relative;
 	width: 300px;
 	height: 615px;
-	background-image: url(image/playerlist.png);
 }
 
 #right {
@@ -37,6 +36,7 @@ html {
 	width: 300px;
 	height: 200px;
 	text-align: center;
+	font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 #user-info li {
@@ -106,12 +106,13 @@ html {
 }
 
 #errmsg {
-	font-size: 15px;
+	font-size: 20px;
 	padding: 0 0;
 	margin-left: 10px;
 	margin-top: 0;
 	margin-bottom: 0;
 	color: red;
+	font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 #rooms-outline {
