@@ -127,7 +127,7 @@ socket.on("chat_msg", function (data){
     msg_info.className = "content";
     //msg_info.innerHTML = msg;
     textnode = document.createTextNode(msg);
-    msg_node.appendChild(textnode);
+    msg_info.appendChild(textnode);
 
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
