@@ -22,7 +22,7 @@ var socket = io.connect("ws://127.0.0.1:8080/game");
 // room_id is the last part of URL: room_id == window.location.search
 var the_room_id = window.location.pathname.split("/")[2];
 console.log("room_id is " + the_room_id);
-socket.emit("join", {"room" : the_room_id});
+socket.emit("join", {"room" : parseInt(the_room_id)});
 
 // cannot join room
 socket.on("join_failure", function (data){
@@ -140,6 +140,7 @@ socket.on("chat_msg", function (data){
 
 // player updated
 socket.on("player_update", function (data){
+    console.log(data);
     data = JSON.parse(data);
     var player1_info = data['player1'];
     var player2_info = data['player2'];
