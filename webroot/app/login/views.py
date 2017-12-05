@@ -1,4 +1,4 @@
-from flask import redirect, url_for, render_template, flash
+from flask import redirect, url_for, render_template, flash, request
 from flask_login import login_user, login_required, logout_user
 from app.login import login
 from app.models import User
@@ -13,7 +13,7 @@ def do_login():
         user = User.query.filter_by(username=form.username.data).first()
         if user is not None and user.verify_password(form.password.data):
             login_user(user)
-            return redirect(url_for('main.get_lobby'))
+            return redirect(request.args.get('next') or url_for('main.get_lobby'))
         flash('Invalid username or password')
     return render_template('login.html', form=form)
 
