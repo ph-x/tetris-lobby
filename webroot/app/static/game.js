@@ -206,6 +206,7 @@ var block_group2;
 
 function preload1() {
 
+    game1.load.image('background', '/static/image/game-bg.png');
     game1.load.spritesheet('block1', '/static/image/block_1.png', config.block_image_width, config.block_image_height);
     game1.load.spritesheet('block2', '/static/image/block_2.png', config.block_image_width, config.block_image_height);
     game1.load.spritesheet('block3', '/static/image/block_3.png', config.block_image_width, config.block_image_height);
@@ -218,6 +219,7 @@ function preload1() {
 
 function preload2() {
 
+    game2.load.image('background', '/static/image/game-bg.png');
     game2.load.spritesheet('block1', '/static/image/block_1.png', config.block_image_width, config.block_image_height);
     game2.load.spritesheet('block2', '/static/image/block_2.png', config.block_image_width, config.block_image_height);
     game2.load.spritesheet('block3', '/static/image/block_3.png', config.block_image_width, config.block_image_height);
@@ -231,8 +233,10 @@ function preload2() {
 function create1() {
 
     // draw UI
-
     block_group1 = game1.add.group();
+
+
+    game1.add.sprite(0, 0, 'background');
 
     // create controller
     cursors = game1.input.keyboard.createCursorKeys();
@@ -270,6 +274,8 @@ function create1() {
 function create2() {
 
     // draw UI
+    game2.add.sprite(0, 0, 'background');
+
 
     block_group2 = game2.add.group();
 
@@ -382,6 +388,9 @@ function regames() {
     // may cause undefined exception
     game1.world.removeAll(true, false);
     game2.world.removeAll(true, false);
+
+    game1.add.sprite(0, 0, 'background');
+    game2.add.sprite(0, 0, 'background');
 
     block_group1 = game1.add.group();
     block_group2 = game2.add.group();

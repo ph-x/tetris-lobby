@@ -161,7 +161,7 @@ def start_game(room_id):
     # start games
     for psid in room_info.players:
         game[psid] = tetris_logic.Tetris(sid=psid, room_info=room_info)
-    socketio.emit('game_status', json.dumps({'action': 'start'}), namespace='/game')
+    socketio.emit('game_status', json.dumps({'action': 'start'}), room=room_info.room_id, namespace='/game')
 
 
 # insecure, require user authentication
@@ -182,10 +182,11 @@ def on_ready():
     if request.sid in room_info.players:
         player = room_info.players[request.sid]
         player.ready()
+        socketio.emit('ready', json.dumps({'status': room_info.players[request.sid].is_ready}), room=request.sid, namespace='/game')
         print(player.is_ready)
         if player.opponent is not None and player.opponent.is_ready:
             start_game(room_id)
-    socketio.emit('ready', json.dumps({'status': room_info.players[request.sid].is_ready}), room=request.sid, namespace='/game')
+    
 
 
 @socketio.on('operate', namespace='/game')
