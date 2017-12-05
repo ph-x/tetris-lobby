@@ -79,11 +79,17 @@ html {
 	font-size: 50px;
 }
 
-#players {
-	height: calc(100% - 200px);
+#playerlist {
+	height: calc(100% - 220px);
 	margin: 0 0;
 	padding-top: 20px;
 	padding-left: 0;
+}
+
+#players {
+	height: 100%;
+	margin: 0 0;
+	padding: 0 0;
 	overflow: auto;
 }
 
@@ -94,8 +100,9 @@ html {
 #players li {
 	font-family: "Comic Sans MS", cursive, sans-serif;
 	font-size: 25px;
-	padding-top: 10px;
+	padding-bottom: 10px;
 	padding-left: 20px;
+	display: block;
 }
 
 #rooms-outline {
@@ -188,16 +195,23 @@ html {
 	background-size: 100% 100%;
 }
 
-#chat-msgs {
-	height: 190px;
+#msg-area {
+	height: 185px;
 	margin: 0 10px;
 	padding-top: 10px;
 	padding-left: 10px;
 	padding-right: 5px;
+	padding-bottom: 5px;
 	background-image: url(image/msgbox.png);
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
 	background-position: center center;
+}
+
+#chat-msgs {
+	height: 100%;
+	margin: 0 0;
+	padding: 0 0;
 	overflow: auto;
 }
 
