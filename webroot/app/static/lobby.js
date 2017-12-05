@@ -1,27 +1,12 @@
 //////////////////
 // socket
 
-var socket = io.connect("ws://127.0.0.1:8080/lobby_event");
-
-// when connected, request user info (I'd prefer server send it without request)
-socket.on("connect", function (){
-	socket.emit("user_info");
-});
-
-// get user_info
-socket.on("user_info", function (data){
-    data = JSON.parse(data);
-    var user = data['user'];
-    //show user name on the block
-    var user_info = document.createElement("li");
-    user_info.innterHTML = user;
-    document.getElementById("user-info").appendChild(user_info);
-});
+var socket = io.connect("127.0.0.1:8080/lobby_event");
 
 // update player list
 socket.on("player_list", function (data){
     data = JSON.parse(data);
-    var players = data['player_list'];
+    var players = data;
 
     // remove current player list
     var player_list = document.getElementById("players");
@@ -31,9 +16,9 @@ socket.on("player_list", function (data){
     } 
 
     // append new player list
-    for(var i = 0; i < player_list.length; i++){
+    for(var i = 0; i < players.length; i++){
         var player_info = document.createElement("li");
-    	player_info.innterHTML = players[i];
+    	player_info.innterHTML = players[i]['player'];
     	player_list.appendChild(player_info);
     }
 });
@@ -41,15 +26,45 @@ socket.on("player_list", function (data){
 // update room list
 socket.on("room_list", function (data){
     data = JSON.parse(data);
-    var rooms = data['room_list'];
+    var rooms = data;
     // remove current room list
     var room_list = document.getElementById("rooms");
     while(room_list.hasChildNodes())
     {  
         room_list.removeChild(room_list.firstChild);  
     } 
+
     // append new room list
-    
+    room_id_list = new Array();
+    for(var i = 0; i < rooms.length; i++)
+        // record match id in array
+        room_id_list[i] = rooms[i]['match_id'];
+
+        // create DOM elements and append it to html
+
+        var room_info = document.createElement("li");
+        var room_button = document.createElement("button");
+        room_button.type = "button";
+        room_button.class = "room_button";
+
+        var player1_info = rooms[i]['player1'];
+        var player2_info = rooms[i]['player2'];
+        var player1_node = document.createElement("p");
+        player1_node.innterHTML = player1_info;
+        var player2_node = document.createElement("p");
+        player2_node.innterHTML = player2_info;
+
+        room_button.appendChild(player1_node);
+        room_button.appendChild(player2_node);
+        room_info.appendChild(room_button);
+        room_list.appendChild(room_info);
+    }
+
+    // bind onclick events on buttons
+    var room_buttons = document.getElementsByClassName("room_button");
+    for(var i = 0; i < room_buttons.length; i++){
+        room_buttons[i].onclick = "{location.href='/match/" + room_id_list[i] + "'}";
+    }
 });
 
 // chat msg received
@@ -80,18 +95,11 @@ socket.on("chat_msg", function (data){
 //////////////////
 // lobby 
 
-var room_list;
+var room_id_list = new Array();
 
 // create a room
 document.getElementById("newroom_btn").onclick = function(){
-    // debug
-    socket.emit("create_room", {});
-};
-
-// TODO: join a room
-document.getElementById("newroom_btn").onclick = function(){
-    // debug
-    socket.emit("create_room", {});
+    socket.emit("create");
 };
 
 //chat input hotkey (enter)

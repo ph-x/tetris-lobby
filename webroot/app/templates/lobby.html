@@ -13,7 +13,7 @@
 <div id="left">
 	<div id="current-user">
 	<ul id="user-info">
-		<li>C.C</li>
+		<li>{{ current_user.username }}</li>
 	</ul>
 	
 	<button type="button" id="logout" onclick="{location.href='{{ url_for('login.logout')}}'}">
