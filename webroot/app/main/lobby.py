@@ -1,7 +1,7 @@
 import threading
 from flask_socketio import join_room, leave_room
 from app.main import main
-from flask import send_from_directory, render_template, request
+from flask import render_template, request, redirect, url_for
 from flask_login import current_user
 from .. import socketio
 import json
@@ -89,12 +89,18 @@ def alloc_match_id():
 
 @main.route('/match/<match_id>')
 def get_match(match_id):
-    return render_template('room.html')
+    if current_user.is_authenticated() is False:
+        return redirect(url_for('login.do_login'))
+    else:
+        return render_template('room.html')
 
 
 @main.route('/lobby')
 def get_lobby():
-    return render_template('lobby.html')
+    if current_user.is_authenticated() is False:
+        return redirect(url_for('login.do_login'))
+    else:
+        return render_template('lobby.html')
 
 
 def get_room_list():
