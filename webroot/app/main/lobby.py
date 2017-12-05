@@ -2,7 +2,7 @@ import threading
 from flask_socketio import join_room, leave_room
 from app.main import main
 from flask_login import current_user
-from flask import send_from_directory, redirect
+from flask import send_from_directory, redirect, render_template
 
 match_lock = threading.Lock()  # guards the following 2 data structures
 uid_match = {}  # uid -> match_id
@@ -76,7 +76,7 @@ def get_match(match_id):
 
 @main.route('/lobby')
 def get_lobby():
-    return send_from_directory('static', 'lobby.html')
+    return render_template('lobby.html')
 
 
 def join_match(match_id):  # todo: change
