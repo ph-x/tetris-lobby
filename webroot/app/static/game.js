@@ -20,7 +20,9 @@ var config = {
 var socket = io.connect("127.0.0.1:8080/game");
 
 // room_id is the last part of URL: room_id == window.location.search
-socket.emit("join", {"room" : window.location.search});
+var the_room_id = window.location.pathname.split("/")[1];
+console.log("room_id is " + the_room_id);
+socket.emit("join", {"room" : the_room_id});
 
 // cannot join room
 socket.on("join_failure", function (data){
@@ -116,11 +118,15 @@ socket.on("chat_msg", function (data){
 
     var player_info = document.createElement("P");
     player_info.class = "player";
-    player_info.innterHTML = msg + ":";
+    //player_info.innerHTML = msg + ":";
+    var textnode = document.createTextNode(player + ":");
+    player_info.appendChild(textnode);
 
     var msg_info = document.createElement("P");
     msg_info.class = "content";
-    msg_info.innterHTML = msg;
+    //msg_info.innerHTML = msg;
+    textnode = document.createTextNode(msg);
+    msg_node.appendChild(textnode);
 
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
@@ -144,10 +150,15 @@ socket.on("player_update", function (data){
     document.getElementById("user-info-2").removeChild(document.getElementById("user-info-2").firstChild);
 
     // make P elements
+    var textnode;
     var player1_node = document.createElement("P");
     var player2_node = document.createElement("P");
-    player1_node.innterHTML = player1_info;
-    player2_node.innterHTML = player2_info;
+    //player1_node.innerHTML = player1_info;
+    textnode = document.createTextNode(player1_info);
+    player1_node.appendChild(textnode);
+    //player2_node.innerHTML = player2_info;
+    textnode = document.createTextNode(player2_info);
+    player2_node.appendChild(textnode);
 
     // append elements to info area
     document.getElementById("user-info-1").appendChild(player1_node);
@@ -169,25 +180,25 @@ var block_group2;
 
 function preload1() {
 
-    game1.load.spritesheet('block1', 'static/image/block_1.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block2', 'static/image/block_2.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block3', 'static/image/block_3.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block4', 'static/image/block_4.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block5', 'static/image/block_5.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block6', 'static/image/block_6.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block7', 'static/image/block_7.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block1', '/static/image/block_1.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block2', '/static/image/block_2.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block3', '/static/image/block_3.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block4', '/static/image/block_4.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block5', '/static/image/block_5.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block6', '/static/image/block_6.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block7', '/static/image/block_7.png', config.block_image_width, config.block_image_height);
 
 }
 
 function preload2() {
 
-    game2.load.spritesheet('block1', 'static/image/block_1.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block2', 'static/image/block_2.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block3', 'static/image/block_3.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block4', 'static/image/block_4.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block5', 'static/image/block_5.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block6', 'static/image/block_6.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block7', 'static/image/block_7.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block1', '/static/image/block_1.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block2', '/static/image/block_2.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block3', '/static/image/block_3.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block4', '/static/image/block_4.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block5', '/static/image/block_5.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block6', '/static/image/block_6.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block7', '/static/image/block_7.png', config.block_image_width, config.block_image_height);
 
 }
 
