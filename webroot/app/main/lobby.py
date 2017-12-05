@@ -16,7 +16,23 @@ reserved_rooms = {x: i for i, x in enumerate(reserved_rooms)}
 id_lock = threading.Lock()  # guards the match id
 next_match = len(reserved_rooms)
 
-plist_lock = threading.Lock()
+plist_lock = threading.Lock()  # guards the player list
+plist = set()
+
+
+def add_to_plist(username):
+    with plist_lock:
+        plist.add(username)
+
+
+def remove_from_plist(username):
+    with plist_lock:
+        plist.remove(username)
+
+
+def get_plist():
+    with plist_lock:
+        return list(plist)
 
 
 class JoinFailureError(Exception):
