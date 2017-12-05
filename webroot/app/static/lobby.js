@@ -70,13 +70,11 @@ socket.on("room_list", function (data){
     // bind onclick events on buttons
     var room_buttons = document.getElementsByClassName("room_button");
     for(var i = 0; i < room_buttons.length; i++){
-        console.log(i +" th button binding......");
+        room_buttons[i].setAttribute("i", i);
         room_buttons[i].onclick = function(){
-            console.log(i + " th button clicked");
-            console.log("room id is " + room_id_list[i]);
-            //window.location.href = "/match/" + room_id_list[i];
+            var index = this.getAttribute("i");
+            window.location.href = "/match/" + room_id_list[index];
         };
-        console.log("{location.href='/match/" + room_id_list[i] + "'}");
     }
 });
 

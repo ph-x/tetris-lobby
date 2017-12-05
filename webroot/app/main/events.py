@@ -60,7 +60,7 @@ def on_join(data):
     join_room(int(room_id))
     # add the player to detail room info, if room info does not exist, create one
     if int(room_id) not in match_rminfo:
-        match_rminfo[int(room_id)] = tetris_logic.RoomInfo(room_id)
+        match_rminfo[int(room_id)] = tetris_logic.RoomInfo(int(room_id))
     room_info = match_rminfo[int(room_id)]
     sid = request.sid
     current_player = tetris_logic.Player(sid=sid, username=current_user.username)
