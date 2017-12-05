@@ -83,13 +83,13 @@ socket.on("chat_msg", function (data){
     var msg_node = document.createElement("LI");
 
     var player_info = document.createElement("P");
-    player_info.class = "player";
+    player_info.className = "player";
     //player_info.innerHTML = player + ":";
     textnode = document.createTextNode(player + ":");
     player_info.appendChild(textnode);
 
     var msg_info = document.createElement("P");
-    msg_info.class = "content";
+    msg_info.className = "content";
     //msg_info.innerHTML = msg;
     textnode = document.createTextNode(msg);
     msg_node.appendChild(textnode);
