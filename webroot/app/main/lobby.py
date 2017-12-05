@@ -87,7 +87,7 @@ def join_match(match_id, sid):
             # create new match or reject
             with id_lock:
                 highest_id = next_match
-            if match_id > highest_id:
+            if match_id >= highest_id:
                 # reject
                 print('rejecting create room {}!'.format(match_id))
                 raise JoinFailureError(
@@ -100,7 +100,7 @@ def join_match(match_id, sid):
                 match_players[match_id].add(current_user.username)
         else:
             # join match normally
-            print('joinging match {}!'.format(match_id))
+            print('joining match {}!'.format(match_id))
             if match.is_full():
                 raise JoinFailureError('match {} is full'.format(match_id))
             join_room(match_id, sid)  # todo: can be lifted out of locked region
