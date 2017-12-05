@@ -36,21 +36,21 @@
 </div>
 
 <div id="right">
-<div id="game-area">
-	<div id="game-l"></div>
-	<div id="next-l"></div>
-	<div id="next-r"></div>
-	<div id="game-r"></div>
-</div>
+	<div id="game-area">
+		<div id="game-l"></div>
+		<div id="next-l"></div>
+		<div id="next-r"></div>
+		<div id="game-r"></div>
+	</div>
 
-<div>
-<button type="button" id="game-ready">
-	<img src="/static/image/ready.png" id="ready-img">
-</button>
-<button type="button" id="exit" onclick="{location.href='{{ url_for('main.get_lobby') }}'}">
-	<img src="/static/image/exit.png">
-</button>
-</div>
+	<div id="buttons">
+		<button type="button" id="game-ready">
+			<img src="/static/image/ready.png" id="ready-img">
+		</button>
+		<button type="button" id="exit" onclick="{location.href='{{ url_for('main.get_lobby') }}'}">
+			<img src="/static/image/exit.png">
+		</button>
+	</div>
 </div>
 
 </div>
