@@ -97,6 +97,31 @@ document.getElementById("chat-submit").onclick = function(){
     socket.emit("chat_msg", chat_msg);
 };
 
+// chat msg received
+socket.on("chat_msg", function (data){
+    data = JSON.parse(data);
+    var players = data['player'];
+    var msg = data['message'];
+
+    // make a LI element
+    var msg_node = document.createElement("li");
+
+    var player_info = document.createElement("p");
+    player_info.class = "player";
+    player_info.innterHTML = msg + ":";
+
+    var msg_info = document.createElement("p");
+    msg_info.class = "content";
+    msg_info.innterHTML = msg;
+
+    msg_node.appendChild(player_info);
+    msg_node.appendChild(msg_info);
+
+    // append element to the chat area
+    document.getElementById("chat-msgs").appendChild(msg_node);
+
+});
+
 //////////////////
 // game renderer
 
