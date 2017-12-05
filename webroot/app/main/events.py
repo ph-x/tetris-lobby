@@ -1,6 +1,6 @@
 import json
 from . import lobby
-from ..tetrisLogic import tetris_logic
+from app.tetrisLogic import tetris_logic
 from flask import request
 from flask_socketio import join_room, rooms
 from flask_login import current_user
