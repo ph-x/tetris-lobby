@@ -97,6 +97,15 @@ def get_lobby():
     return render_template('lobby.html')
 
 
+def get_room_list():
+    with match_lock:
+        data = [{'player1': v.player1,
+                 'player2': v.player2,
+                 'match_id': k}
+                for k, v in match_players.items()]
+        return data
+
+
 def join_match(match_id, sid):
     with match_lock:
         try:
