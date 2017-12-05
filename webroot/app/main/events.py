@@ -12,7 +12,8 @@ from .. import socketio
 # match_id -> RoomInfo
 match_rminfo = {}
 
-#tell front end if some player joined or left, player id is not fixed
+
+# tell front end if some player joined or left, player id is not fixed
 def player_update(room_info):
     data = {}
     pid = 1
@@ -24,22 +25,23 @@ def player_update(room_info):
         pid = pid + 1
     socketio.emit('game_status', json.dumps(data), room=room_info.room_id, namespace='/game')
 
+
 @socketio.on('join', namespace='/game')
 def on_join(data):
     # create new room when
     room_id = data['room']
     crsid = request.sid
-    #attemp to join a match
+    # attemp to join a match
     try:
-        lobby.join_match(pid=request.sid,match_id=room_id)
+        lobby.join_match(pid=request.sid, match_id=room_id)
     except lobby.JoinFailureError:
         return_data = {}
         return_data['err_msg'] = 'join failed due to some reason'
         socketio.emit('join_failure', json.dumps(return_data), room=request.sid, namespace='/game')
         return
-    #join message broadcast room
+    # join message broadcast room
     join_room(room_id)
-    #add the player to detail room info, if room info does not exist, create one
+    # add the player to detail room info, if room info does not exist, create one
     if room_id not in match_rminfo:
         match_rminfo[room_id] = tetris_logic.RoomInfo(room_id)
         room_info = match_rminfo[room_id]
@@ -52,6 +54,7 @@ def on_join(data):
     room_info.players[sid] = current_player
     player_update(room_id)
 
+
 def leave_game():
     crsid = request.sid
     username = crsid
@@ -60,16 +63,16 @@ def leave_game():
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a game'.format(username))
-    #stop game if some players left
+    # stop game if some players left
     if room_info.game_status is 'on':
         room_info.game[request.sid].stop_game()
-    #remove the player from the room
+    # remove the player from the room
     leave_room(room_id)
-    #delete room info if no players left
+    # delete room info if no players left
     if len(room_info.players) is 0:
         del match_rminfo[room_id]
         return
-    #otherwise maintain room info and remove the player properly
+    # otherwise maintain room info and remove the player properly
     if request.sid in room_info.players:
         if room_info.players[request.sid].opponent is not None:
             room_info.players[request.sid].opponent.opponent = None
@@ -90,15 +93,17 @@ def chat(data):
     for room in room_list:
         socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/game')
 
-#unfortunatly we get two message in different namespace saying the same thing,
-#and this seems the only way to do it, maybe assign the two message with one namespace '/chat' is a better idea, but this takes one additional socket
-@socketio.on('chat_msg', namespace='/lobby')
+
+# unfortunatly we get two message in different namespace saying the same thing,
+# and this seems the only way to do it, maybe assign the two message with one namespace '/chat' is a better idea, but this takes one additional socket
+@socketio.on('chat_msg', namespace='/lobby_event')
 def chat_copy(data):
     crsid = request.sid
     room_list = rooms()
     data['player'] = crsid
     for room in room_list:
-        socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/lobby')
+        socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/lobby_event')
+
 
 def start_game(room_id):
     try:
