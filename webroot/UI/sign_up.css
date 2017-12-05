@@ -2,6 +2,16 @@ html {
 	background-image: url(image/grid-bg.png);
 }
 
+#errmsg {
+	text-align: center;
+	padding: 0 0;
+	margin-top: 45px;
+	margin-bottom: -45px;
+	color: red;
+	font-size: 23px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
+}
+
 #box {
 	height: 400px;
 	background-image: url(image/signup_box.png);
