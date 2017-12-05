@@ -76,7 +76,6 @@ def get_match(match_id):
 
 @main.route('/lobby')
 def get_lobby():
-    leave_match()  # todo: change to a better solution
     return send_from_directory('static', 'lobby.html')
 
 

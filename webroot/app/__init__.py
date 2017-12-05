@@ -23,7 +23,6 @@ login_manager.login_view = 'auth.login'
 
 
 def create_app(config_name):
-
     app = Flask(__name__)
     app.config.from_object(config[config_name])
     config[config_name].init_app(app)
@@ -35,5 +34,7 @@ def create_app(config_name):
 
     from .main import main as main_blueprint
     app.register_blueprint(main_blueprint)
+    from .login import login as login_bp
+    app.register_blueprint(login_bp, url_prefix='/login')
 
     return app
