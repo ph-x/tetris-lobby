@@ -105,6 +105,15 @@ html {
 	display: block;
 }
 
+#errmsg {
+	font-size: 15px;
+	padding: 0 0;
+	margin-left: 10px;
+	margin-top: 0;
+	margin-bottom: 0;
+	color: red;
+}
+
 #rooms-outline {
 	height: 350px;
 	padding-top: 10px;

@@ -7,6 +7,16 @@ html {
 	display: block;
 	margin: 0 auto;
 	padding-top: 30px;
+	padding-bottom: 50px;
+}
+
+#errmsg {
+	text-align: center;
+	padding: 0 0;
+	margin: 0 0;
+	color: red;
+	font-size: 23px;
+	font-family: "Comic Sans MS", cursive, sans-serif;
 }
 
 #box {
@@ -15,7 +25,6 @@ html {
 	background-size: 500px 100%;
 	background-repeat: no-repeat;
 	background-position: calc(50% + 10px) center;
-	margin-top: 50px;
 }
 
 #user {
@@ -83,4 +92,5 @@ input {
 	right: 60px;
 	bottom: 20px;
 	width: 300px;
+	z-index: -1;
 }
