@@ -1,6 +1,6 @@
 # How to play:
 
-Service will start on localhost:8080/
+Service will start on localhost:8080/. You can test it on a same computer, or visit the site on the host on other computers if you want.
 
 This is an online 2-player Tetris game. There're 4 pages: sign up, log in, lobby, and game room. In lobby, you can see your personal information and all other spare player's usernames, also a list of all rooms in which game is going or which is waiting for another player. You can join in a room for battle or create a new room by clicking the "+" button. While joining a room, you'll see the information of you and your rival, and how the game is going on both side. Beside, in both lobby and game room, you can enjoy the chatting with all other players, or just with your rival in a room. 
 
