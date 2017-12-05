@@ -61,7 +61,7 @@ label {
 	padding: 0 0;
 	margin-top: 30px;
 	position: absolute;
-	left: calc(50% - 150px);
+	left: calc(50% - 315px);
 	background: transparent;
 	border: transparent;
 	outline: none;
@@ -72,18 +72,44 @@ label {
 	background-size: 100% 100%;
 }
 
+#login_btn {
+	padding: 0 0;
+	margin: 0 0;
+	background: transparent;
+	border: transparent;
+	outline: none;
+	width: 300px;
+	height: 100px;
+	background-image: url(/static/image/login_btn.png);
+	background-size: 100% 100%;
+	position: absolute;
+	left: calc(50% + 15px);
+}
+
 #signup_btn:hover {
 	width: 320px;
 	height: 106px;
 	margin-top: 28px;
-	left: calc(50% - 160px);
+	margin-left: -10px;
+}
+
+#login_btn:hover {
+	width: 320px;
+	height: 106px;
+	margin-top: -2px;
+	margin-left: -10px;
 }
 
 #signup_btn:active {
 	width: 300px;
 	height: 100px;
 	margin-top: 30px;
-	left: calc(50% - 150px);
+}
+
+#login_btn:active {
+	width: 300px;
+	height: 100px;
+	margin-top: 30px;
 }
 
 #loginbg {
