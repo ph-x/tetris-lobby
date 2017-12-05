@@ -2,6 +2,14 @@ html {
 	background-image: url(image/grid-bg.png);
 }
 
+#signup_ico img {
+	width: 400px;
+	display: block;
+	margin: 0 auto;
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+
 #box {
 	height: 400px;
 	background-image: url(image/signup_box.png);
