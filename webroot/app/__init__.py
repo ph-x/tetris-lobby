@@ -18,8 +18,7 @@ bootstrap = Bootstrap()
 db = SQLAlchemy()
 login_manager = LoginManager()
 socketio = SocketIO()
-login_manager.session_protection = 'strong'
-login_manager.login_view = 'auth.login'
+login_manager.login_view = 'login.do_login'
 
 
 def create_app(config_name):

@@ -47,7 +47,7 @@
 <button type="button" id="game-ready">
 	<img src="/static/image/ready.png">
 </button>
-<button type="button" id="exit">
+<button type="button" id="exit" onclick="{location.href='{{ url_for('main.get_lobby') }}'}">
 	<img src="/static/image/exit.png">
 </button>
 </div>
