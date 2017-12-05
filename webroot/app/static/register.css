@@ -1,5 +1,5 @@
 html {
-	background-image: url(image/grid-bg.png);
+	background-image: url(/static/image/grid-bg.png);
 }
 
 #signup_ico img {
@@ -28,7 +28,7 @@ html {
 
 #box {
 	height: 400px;
-	background-image: url(image/signup_box.png);
+	background-image: url(/static/image/signup_box.png);
 	background-size: 500px 300px;
 	background-repeat: no-repeat;
 	background-position: center center;
