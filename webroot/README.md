@@ -7,8 +7,7 @@ You can play by open two browser tabs, create two different accounts and join th
 # Spotlights:
 1. Multiple threads and message queue for sending instructions
 
-    In the game, there are multiple sources of operation instructions, move from the player and drop from the timer (, and perhaps disturbance from other players).
-    And these instructions should be handled properly. If some users are sending massive instructions, perform these instructions should not starve other jobs of the server.
+    In the game, there are multiple sources of operation instructions, move from the player and drop from the timer and perhaps disturbance from other players. and these instructions should be handled properly. If some users are sending massive instructions, perform these instructions should not starve other jobs of the server.
     
     We unified the multiple instruction sources with a message deque, with a worker handling messages in the queue.
     By sending instructions, players (and perhaps other message producers) put their operation at the bottom and timer at the top.
