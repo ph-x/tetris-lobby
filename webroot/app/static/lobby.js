@@ -70,15 +70,16 @@ socket.on("room_list", function (data){
 // chat msg received
 socket.on("chat_msg", function (data){
 	data = JSON.parse(data);
-    var players = data['player'];
+    var player = data['player'];
     var msg = data['message'];
 
+    console.log(player + msg);
     // make a LI element
     var msg_node = document.createElement("li");
 
     var player_info = document.createElement("p");
     player_info.class = "player";
-    player_info.innterHTML = msg + ":";
+    player_info.innterHTML = player + ":";
 
     var msg_info = document.createElement("p");
     msg_info.class = "content";
@@ -90,6 +91,12 @@ socket.on("chat_msg", function (data){
     // append element to the chat area
     document.getElementById("chat-msgs").appendChild(msg_node);
 
+});
+
+// create response
+socket.on("create_res", function (data){
+    data = JSON.parse(data);
+    window.location.href = "/match/" + data['match_id'];
 });
 
 //////////////////
