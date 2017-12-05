@@ -39,6 +39,7 @@ def on_enter_lobby():
     data = lobby.get_plist()
     socketio.emit('player_list', json.dumps(data), room=0, namespace='/lobby_event')
 
+
 @socketio.on('disconnect', namespace='/lobby_event')
 def on_leave_lobby():
     print('leave_lobby')
