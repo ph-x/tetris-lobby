@@ -46,7 +46,7 @@ socket.on("room_list", function (data){
         var room_info = document.createElement("LI");
         var room_button = document.createElement("BUTTON");
         room_button.type = "button";
-        room_button.class = "room_button";
+        room_button.className = "room_button";
 
         var player1_info = rooms[i]['player1'];
         var player2_info = rooms[i]['player2'];
