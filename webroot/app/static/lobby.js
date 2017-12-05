@@ -1,7 +1,7 @@
 //////////////////
 // socket
 
-var socket = io.connect("ws://127.0.0.1/lobby_event");
+var socket = io.connect("ws://127.0.0.1:8080/lobby_event");
 
 // update player list
 socket.on("player_list", function (data){
