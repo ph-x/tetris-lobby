@@ -36,4 +36,6 @@ def register():
         flash('You can now login')
         print('ready to redirect to login page')
         return redirect(url_for('login.do_login'))
+    if not (form.password.data==form.confirm.data):
+        flash('Confirm password must be the same as Password')
     return render_template('register.html', form=form)

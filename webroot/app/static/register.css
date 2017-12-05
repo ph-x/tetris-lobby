@@ -27,7 +27,7 @@ html {
 }
 
 #box {
-	height: 400px;
+	height: 300px;
 	background-image: url(/static/image/signup_box.png);
 	background-size: 500px 300px;
 	background-repeat: no-repeat;
@@ -35,7 +35,7 @@ html {
 }
 
 #user {
-	padding-top:60px;
+	padding-top: 12px;
 	width: 400px;
 	height: 300px;
 	display: block;
@@ -47,8 +47,9 @@ input {
 	width: 400px;
 	height: 45px;
 	border: none;
+	outline: none;
 	background: transparent;
-	font-size: 40px;
+	font-size: 30px;
 }
 
 label {
