@@ -179,3 +179,27 @@ html {
 	width: 300px;
 	margin: 0 0;
 }
+
+#exit {
+	width: 90px;
+	position: absolute;
+	right: 50px;
+	background: transparent;
+	border: transparent;
+	outline: none;
+}
+
+#exit img {
+	width: 100%;
+}
+
+#exit img:hover {
+	width: 100px;
+	margin-top: -2px;
+	margin-left: -5px;
+}
+
+#exit img:active {
+	width: 90px;
+	margin: 0 0;
+}
