@@ -118,11 +118,15 @@ socket.on("chat_msg", function (data){
 
     var player_info = document.createElement("P");
     player_info.class = "player";
-    player_info.innterHTML = msg + ":";
+    //player_info.innerHTML = msg + ":";
+    var textnode = document.createTextNode(player + ":");
+    player_info.appendChild(textnode);
 
     var msg_info = document.createElement("P");
     msg_info.class = "content";
-    msg_info.innterHTML = msg;
+    //msg_info.innerHTML = msg;
+    textnode = document.createTextNode(msg);
+    msg_node.appendChild(textnode);
 
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
@@ -146,10 +150,15 @@ socket.on("player_update", function (data){
     document.getElementById("user-info-2").removeChild(document.getElementById("user-info-2").firstChild);
 
     // make P elements
+    var textnode;
     var player1_node = document.createElement("P");
     var player2_node = document.createElement("P");
-    player1_node.innterHTML = player1_info;
-    player2_node.innterHTML = player2_info;
+    //player1_node.innerHTML = player1_info;
+    textnode = document.createTextNode(player1_info);
+    player1_node.appendChild(textnode);
+    //player2_node.innerHTML = player2_info;
+    textnode = document.createTextNode(player2_info);
+    player2_node.appendChild(textnode);
 
     // append elements to info area
     document.getElementById("user-info-1").appendChild(player1_node);
