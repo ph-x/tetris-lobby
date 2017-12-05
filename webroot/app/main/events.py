@@ -44,6 +44,8 @@ def on_enter_lobby():
 def on_leave_lobby():
     print('leave_lobby')
     lobby.remove_from_plist(current_user.username)
+    data = lobby.get_plist()
+    socketio.emit('player_list', json.dumps(data), room=0, namespace='/lobby_event')
     leave_room(0)
 
 
@@ -183,6 +185,7 @@ def on_ready():
         print(player.is_ready)
         if player.opponent is not None and player.opponent.is_ready:
             start_game(room_id)
+    socketio.emit('ready', json.dumps({'status': room_info.players[request.sid].is_ready}), room=request.sid, namespace='/game')
 
 
 @socketio.on('operate', namespace='/game')
