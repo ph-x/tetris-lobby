@@ -36,7 +36,7 @@ socket.on("room_list", function (data){
 
     // append new room list
     room_id_list = new Array();
-    for(var i = 0; i < rooms.length; i++)
+    for(var i = 0; i < rooms.length; i++){
         // record match id in array
         room_id_list[i] = rooms[i]['match_id'];
 

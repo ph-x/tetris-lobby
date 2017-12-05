@@ -1,7 +1,7 @@
 import threading
 from flask_socketio import join_room, leave_room
 from app.main import main
-from flask import send_from_directory, redirect, render_template
+from flask import send_from_directory, redirect, render_template, url_for
 from flask_login import current_user
 from .. import socketio
 import json
@@ -68,7 +68,7 @@ def alloc_match_id():
 
 @main.route('/match/<match_id>')
 def get_match(match_id):
-    return send_from_directory('static', 'room.html')
+    return render_template('room.html')
 
 
 @main.route('/lobby')
@@ -103,7 +103,7 @@ def join_match(match_id, sid):
                      'player2': v.player2,
                      'match_id': k}
                     for k, v in match_players.items()]
-            socketio.emit('room_list', json.dumps(data))
+            socketio.emit('room_list', json.dumps(data), namespace='lobby_event')
 
 
 def leave_match(sid):
@@ -123,7 +123,7 @@ def leave_match(sid):
                      'player2': v.player2,
                      'match_id': k}
                     for k, v in match_players.items()]
-            socketio.emit('room_list', json.dumps(data))
+            socketio.emit('room_list', json.dumps(data), namespace='lobby_event')
 
 
 def all_matches():
@@ -139,7 +139,8 @@ def match_for(sid):
         return sid_match[sid]
 
 
-@socketio.on('create')
+@socketio.on('create', namespace='lobby_event')
 def on_create():
     match_id = alloc_match_id()
-    socketio.emit('create_res', json.dumps({'match_id': match_id}))
+    print('new match id {} allocated'.format(match_id))
+    socketio.emit('create_res', json.dumps({'match_id': match_id}), namespace='lobby_event')
