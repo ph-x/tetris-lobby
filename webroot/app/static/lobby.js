@@ -49,6 +49,9 @@ socket.on("room_list", function (data){
         room_button.className = "room_button";
 
         var player1_info = rooms[i]['player1'];
+        if (player1_info == null) {
+            player1_info = "\0";
+        }
         var player2_info = rooms[i]['player2'];
         if (player2_info == null) {
             player2_info = "\0";
