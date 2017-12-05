@@ -76,7 +76,7 @@ class Match:
         return self.player1 == username or self.player2 == username
 
     def __repr__(self):
-        return 'Player({}, {})'.format(self.player1, self.player2)
+        return 'Match({}, {})'.format(self.player1, self.player2)
 
 
 def alloc_match_id():
