@@ -23,12 +23,22 @@ def player_update(room_info):
         player_name = 'player' + str(pid)
         data[player_name] = player.username
         pid = pid + 1
+
+    print(data)
+    print('room_info.room_id', room_info.room_id)
     socketio.emit('player_update', json.dumps(data), room=room_info.room_id, namespace='/game')
+    print('rooms', rooms())
 
 
 @socketio.on('connect', namespace='/lobby_event')
 def on_enter_lobby():
     join_room(0)
+
+
+@socketio.on('disconnect', namespace='/lobby_event')
+def on_leave_lobby():
+    print('leave_lobby')
+    leave_room(0)
 
 
 @socketio.on('join', namespace='/game')
@@ -46,13 +56,14 @@ def on_join(data):
         socketio.emit('join_failure', json.dumps(return_data), room=request.sid, namespace='/game')
         return
     # join message broadcast room
-    join_room(room_id)
+    join_room(int(room_id))
     # add the player to detail room info, if room info does not exist, create one
     if int(room_id) not in match_rminfo:
         match_rminfo[int(room_id)] = tetris_logic.RoomInfo(room_id)
     room_info = match_rminfo[int(room_id)]
     sid = request.sid
-    current_player = tetris_logic.Player(sid=sid, username=crsid)
+    current_player = tetris_logic.Player(sid=sid, username=current_user.username)
+    print("current_player.username", current_player.username)
     current_player.opponent = None
     print("room_info.players", room_info.players)
     for psid in room_info.players:
@@ -70,6 +81,7 @@ def leave_game():
     try:
         room_id = lobby.sid_match[username]
         room_info = match_rminfo[int(room_id)]
+        lobby.leave_match(crsid)
     except KeyError:
         raise RuntimeError('user {} is not in a game'.format(username))
     # stop game if some players left
@@ -97,10 +109,16 @@ def on_disconnect():
 @socketio.on('chat_msg', namespace='/game')
 def chat(data):
     # data = json.loads(data)
+    print(data)
+    # print(json.loads(data))
     crsid = request.sid
     room_list = rooms()
+    print(room_list)
     data['player'] = current_user.username
+    print('------', json.dumps(data))
     for room in room_list:
+        if room is request.sid:
+            continue
         socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/game')
 
 
@@ -117,6 +135,8 @@ def chat_copy(data):
     data['player'] = current_user.username
     print('------', json.dumps(data))
     for room in room_list:
+        if room is request.sid:
+            continue
         socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/lobby_event')
 
 
