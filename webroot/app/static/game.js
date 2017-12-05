@@ -21,7 +21,6 @@ var socket = io.connect("ws://127.0.0.1:8080/game");
 
 // room_id is the last part of URL: room_id == window.location.search
 var the_room_id = window.location.pathname.split("/")[2];
-console.log("room_id is " + the_room_id);
 socket.emit("join", {"room" : parseInt(the_room_id)});
 
 // cannot join room
@@ -87,6 +86,22 @@ document.getElementById("game-ready").onclick = function(){
     socket.emit("ready");
 };
 
+socket.on("ready", function (data){
+    data = JSON.parse(data);
+    var ready_status = data['status'];
+    console.log(ready_status);
+
+    var btn_img = document.getElementById("ready-img");
+    if(ready_status) {
+        // in ready
+        btn_img.src = "/static/image/_ready.png";
+    }
+    else {
+        // not in ready
+        btn_img.src = "/static/image/ready.png";
+    }
+});
+
 //chat input hotkey (enter)
 document.getElementById("chat-box").firstElementChild.onkeydown = function(e){
     if (e.keyCode == 13) {
@@ -103,7 +118,6 @@ document.getElementById("chat-submit").onclick = function(){
         return;
     }
     input_box.value = "";
-    console.log(chat_msg);
     socket.emit("chat_msg", {"message": chat_msg});
 };
 
@@ -132,7 +146,6 @@ socket.on("chat_msg", function (data){
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
 
-    console.log(msg_node.innerHTML)
     // append element to the chat area
     document.getElementById("chat-msgs").appendChild(msg_node);
 
@@ -140,7 +153,6 @@ socket.on("chat_msg", function (data){
 
 // player updated
 socket.on("player_update", function (data){
-    console.log(data);
     data = JSON.parse(data);
     var player1_info = data['player1'];
     var player2_info = data['player2'];

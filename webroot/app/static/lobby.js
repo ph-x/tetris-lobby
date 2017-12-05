@@ -5,7 +5,6 @@ var socket = io.connect("ws://127.0.0.1:8080/lobby_event");
 
 // update player list
 socket.on("player_list", function (data){
-    console.log("player_list receive: " + data);
     data = JSON.parse(data);
     var players = data;
 
@@ -20,7 +19,6 @@ socket.on("player_list", function (data){
     for(var i = 0; i < players.length; i++){
         var player_info = document.createElement("LI");
         var textnode = document.createTextNode(players[i]);
-        console.log(i + " th player is " + players[i]);
         player_info.appendChild(textnode);
     	player_list.appendChild(player_info);
     }
@@ -28,11 +26,9 @@ socket.on("player_list", function (data){
 
 // update room list
 socket.on("room_list", function (data){
-    console.log("receive room_list signal");
     data = JSON.parse(data);
     var rooms = data;
     // remove current room list
-    console.log("room_list: " + data);
     var room_list = document.getElementById("rooms");
     while(room_list.hasChildNodes())
     {  
@@ -105,7 +101,6 @@ socket.on("chat_msg", function (data){
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
 
-    console.log(msg_node.innerHTML)
     // append element to the chat area
     document.getElementById("chat-msgs").appendChild(msg_node);
 
@@ -143,7 +138,6 @@ document.getElementById("chat-submit").onclick = function(){
         return;
     }
     input_box.value = "";
-    console.log(chat_msg);
     socket.emit("chat_msg", {"message": chat_msg});
 };
 
