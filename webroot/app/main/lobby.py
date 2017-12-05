@@ -57,6 +57,9 @@ class Match:
     def __contains__(self, username):
         return self.player1 == username or self.player2 == username
 
+    def __repr__(self):
+        return 'Player({}, {})'.format(self.player1, self.player2)
+
 
 def alloc_match_id():
     global next_match
@@ -86,15 +89,18 @@ def join_match(match_id, sid):
                 highest_id = next_match
             if match_id > highest_id:
                 # reject
+                print('rejecting create room {}!'.format(match_id))
                 raise JoinFailureError(
                     'user {} wants to join nonexistent match {}'.format(sid, match_id))
             else:
                 # create a match
+                print('reusing room id {}'.format(match_id))
                 join_room(match_id, sid)  # todo: can be lifted out of locked region
                 sid_match[sid] = match_id
                 match_players[match_id].add(current_user.username)
         else:
             # join match normally
+            print('joinging match {}!'.format(match_id))
             if match.is_full():
                 raise JoinFailureError('match {} is full'.format(match_id))
             join_room(match_id, sid)  # todo: can be lifted out of locked region
@@ -103,6 +109,8 @@ def join_match(match_id, sid):
                      'player2': v.player2,
                      'match_id': k}
                     for k, v in match_players.items()]
+            print(sid_match)
+            print(match_players)
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
@@ -114,8 +122,10 @@ def leave_match(sid):
         try:
             match_id = sid_match[sid]  # leave match if in one
         except KeyError:
+            print('session {} not leaving room!'.format(sid))
             pass  # do nothing if not in a match
         else:
+            print('session {} leaving room {}!'.format(sid, match_id))
             del sid_match[sid]
             leave_room(match_id, sid)  # todo: can be lifted out of locked region
             match_players[match_id].remove(current_user.username)
@@ -126,6 +136,8 @@ def leave_match(sid):
                      'player2': v.player2,
                      'match_id': k}
                     for k, v in match_players.items()]
+            print(sid_match)
+            print(match_players)
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
