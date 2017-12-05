@@ -36,7 +36,7 @@ socket.on("room_list", function (data){
 
     // append new room list
     room_id_list = new Array();
-    for(var i = 0; i < rooms.length; i++)
+    for(var i = 0; i < rooms.length; i++){
         // record match id in array
         room_id_list[i] = rooms[i]['match_id'];
 
@@ -119,7 +119,7 @@ document.getElementById("chat-submit").onclick = function(){
     }
     input_box.value = "";
     console.log(chat_msg);
-    socket.emit("chat_msg", chat_msg);
+    socket.emit("chat_msg", {"message": chat_msg});
 };
 
 

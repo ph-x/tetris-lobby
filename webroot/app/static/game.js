@@ -102,7 +102,7 @@ document.getElementById("chat-submit").onclick = function(){
     }
     input_box.value = "";
     console.log(chat_msg);
-    socket.emit("chat_msg", chat_msg);
+    socket.emit("chat_msg", {"message": chat_msg});
 };
 
 // chat msg received
