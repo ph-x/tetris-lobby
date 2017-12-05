@@ -20,7 +20,7 @@ var config = {
 var socket = io.connect("127.0.0.1:8080/game");
 
 // room_id is the last part of URL: room_id == window.location.search
-var the_room_id = window.location.href.split("/")[2];
+var the_room_id = window.location.pathname.split("/")[1];
 console.log("room_id is " + the_room_id);
 socket.emit("join", {"room" : the_room_id});
 
