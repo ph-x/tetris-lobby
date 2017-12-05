@@ -57,7 +57,12 @@ socket.on("game_status", function (data){
 
     if(game_action == "start"){
         game_status = 1;
+        
+        // refresh ready button
+        var btn_img = document.getElementById("ready-img");
+        btn_img.src = "/static/image/ready.png";
 
+        // re game
         regames();
     }
     else if(game_action == "end"){
