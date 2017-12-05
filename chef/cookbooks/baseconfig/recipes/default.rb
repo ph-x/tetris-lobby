@@ -31,6 +31,10 @@ package "postgresql"
 execute "init_database" do
   command  'echo "CREATE DATABASE mydb; CREATE USER ubuntu; GRANT ALL PRIVILEGES ON DATABASE mydb TO ubuntu;" | sudo -u postgres psql'
 end
+
+execute "install_psycopg2" do
+	command "pip3 install psycopg2"
+end
 # Initialize python dependencies
 package "python3"
 package "python3-pip"
