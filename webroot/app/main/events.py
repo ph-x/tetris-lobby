@@ -34,7 +34,7 @@ def prepare_game(data):
 def leave_game():
     username = current_user.username
     try:
-        room_id = lobby.uid_match[username]
+        room_id = lobby.pid_match[username]
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a game'.format(username))
@@ -76,7 +76,7 @@ def start_game(room_id):
 @socketio.on('ready', namespace='/game')
 def on_ready(data):
     try:
-        room_id = lobby.uid_match[current_user.username]
+        room_id = lobby.pid_match[current_user.username]
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a room'.format(current_user.username))
@@ -94,7 +94,7 @@ def on_ready(data):
 @socketio.on('operate', namespace='/game')
 def operate_game(instruction):
     try:
-        room_id = lobby.uid_match[current_user.username]
+        room_id = lobby.pid_match[current_user.username]
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a room'.format(current_user.username))
