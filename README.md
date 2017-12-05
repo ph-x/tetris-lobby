@@ -4,7 +4,13 @@ Service will start on localhost:8080/
 
 This is an online 2-player Tetris game. There're 4 pages: sign up, log in, lobby, and game room. In lobby, you can see your personal information and all other spare player's usernames, also a list of all rooms in which game is going or which is waiting for another player. You can join in a room for battle or create a new room by clicking the "+" button. While joining a room, you'll see the information of you and your rival, and how the game is going on both side. Beside, in both lobby and game room, you can enjoy the chatting with all other players, or just with your rival in a room. 
 
-You can play by open two DIFFERENT browsers, create two different accounts and join the same game room.
+You can play by open two DIFFERENT browsers, create several different accounts and join the same game room.
+
+# Note:
+
+As suggested in Flask documentation, we choose eventlet to serve as websocket transporter and WSGI server.
+
+Also, we apply CSRF method and enough authorization to achieve security. But we do NOT avoid entering room by URL if available, since we will check its legality first.
 
 # Spotlights:
 1. Multiple threads and message queue for sending instructions
