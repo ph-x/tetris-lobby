@@ -1,7 +1,7 @@
 html, body {
-    height: 100%;
-    margin: 0;
-    padding: 0;
+  height: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 * {
@@ -31,7 +31,7 @@ html {
     right: 0;
     height: 100vh;
     width: 600px;
-    min-width: 600px;
+    min-width:600px;
 }
 
 #user-info {
@@ -60,18 +60,46 @@ html {
     background-size: 100% 100%;
 }
 
-#chat-msgs {
-    height: calc(100% - 60px);
-    margin: 0 10px;
+#msg-area {
+    height: calc(100% - 70px);
+    margin: 5px 10px;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-bottom: 5px;
     background-image: url(/static/image/msgbox.png);
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;
-    padding: 0px 0px;
+}
+
+#chat-msgs {
+    height: 100%;
+    margin: 0 0;
+    padding: 0 0;
+    overflow: auto;
+}
+
+#chat-msgs::-webkit-scrollbar {
+    display: none;
 }
 
 #chat-msgs li {
     display: block;
+    width: 100%;
+}
+
+#chat-msgs li .player {
+    font-size: 18px;
+    color: green;
+}
+
+#chat-msgs li .content {
+    font-size: 20px;
+    margin-left: 20px;
+    margin-right: 2px;
+    color: blue;
+    word-wrap: break-word; 
+    word-break: normal;
 }
 
 #chat-input {
@@ -91,6 +119,7 @@ html {
 }
 
 #chat-box input {
+    font-size: 20px;
     border: hidden;
     background: transparent;
     margin-left: 5px;
@@ -122,7 +151,7 @@ html {
     height: 528px;
     float: left;
     background-image: url(/static/image/gamebox-l.png);
-    background-size: 100% 100%;
+    background-size:100% 100%;
 }
 
 #game-r {
@@ -131,7 +160,7 @@ html {
     height: 528px;
     float: left;
     background-image: url(/static/image/gamebox-r.png);
-    background-size: 100% 100%;
+    background-size:100% 100%;
 }
 
 #game-ready {
@@ -155,5 +184,29 @@ html {
 
 #game-ready img:active {
     width: 300px;
+    margin: 0 0;
+}
+
+#exit {
+    width: 90px;
+    position: absolute;
+    right: 50px;
+    background: transparent;
+    border: transparent;
+    outline: none;
+}
+
+#exit img {
+    width: 100%;
+}
+
+#exit img:hover {
+    width: 100px;
+    margin-top: -2px;
+    margin-left: -5px;
+}
+
+#exit img:active {
+    width: 90px;
     margin: 0 0;
 }

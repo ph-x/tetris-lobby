@@ -27,7 +27,10 @@ service "nginx" do
 end
 
 # My config for database
-package "sqlite"
+package "postgresql"
+execute "init_database" do
+  command  'echo "CREATE DATABASE mydb; CREATE USER ubuntu; GRANT ALL PRIVILEGES ON DATABASE mydb TO ubuntu;" | sudo -u postgres psql'
+end
 
 # Initialize python dependencies
 package "python3"
@@ -64,14 +67,3 @@ end
 # 	command "gunicorn -b 127.0.0.1:5000 --worker-class eventlet -w 1 tetrisApp:app &"
 # 	cwd "/home/ubuntu/project/webroot"
 # end
-
-
-
-
-
-
-
-
-
-
-
