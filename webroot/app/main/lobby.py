@@ -132,6 +132,7 @@ def join_match(match_id, sid):
                     for k, v in match_players.items()]
             print(sid_match)
             print(match_players)
+            print(data)
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
@@ -159,6 +160,7 @@ def leave_match(sid):
                     for k, v in match_players.items()]
             print(sid_match)
             print(match_players)
+            print(data)
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
