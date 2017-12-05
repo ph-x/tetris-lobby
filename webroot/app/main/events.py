@@ -26,6 +26,11 @@ def player_update(room_info):
     socketio.emit('game_status', json.dumps(data), room=room_info.room_id, namespace='/game')
 
 
+@socketio.on('connect', namespace='/lobby_event')
+def on_enter_lobby():
+    join_room(0)
+
+
 @socketio.on('join', namespace='/game')
 def on_join(data):
     # create new room when
@@ -100,6 +105,7 @@ def chat(data):
 def chat_copy(data):
     crsid = request.sid
     room_list = rooms()
+    print(room_list)
     data['player'] = crsid
     for room in room_list:
         socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/lobby_event')
