@@ -93,7 +93,7 @@ def chat(data):
 #unfortunatly we get two message in different namespace saying the same thing,
 #and this seems the only way to do it, maybe assign the two message with one namespace '/chat' is a better idea, but this takes one additional socket
 @socketio.on('chat_msg', namespace='/lobby')
-def chat(data):
+def chat_copy(data):
     crsid = request.sid
     room_list = rooms()
     data['player'] = crsid
