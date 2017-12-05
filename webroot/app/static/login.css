@@ -19,6 +19,12 @@ html {
 	font-size: 25px;
 }
 
+.alert li {
+	padding: 0 0;
+	margin: 0 0;
+	text-align: center;
+}
+
 #box {
 	height: 220px;
 	background-image: url(/static/image/loginbox.png);
