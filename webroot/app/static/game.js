@@ -20,7 +20,9 @@ var config = {
 var socket = io.connect("127.0.0.1:8080/game");
 
 // room_id is the last part of URL: room_id == window.location.search
-socket.emit("join", {"room" : window.location.search});
+// socket.emit("join", {"room" : window.location.search});
+socket.emit("join", {"room" : '1'});
+
 
 // cannot join room
 socket.on("join_failure", function (data){
@@ -169,25 +171,25 @@ var block_group2;
 
 function preload1() {
 
-    game1.load.spritesheet('block1', 'static/image/block_1.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block2', 'static/image/block_2.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block3', 'static/image/block_3.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block4', 'static/image/block_4.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block5', 'static/image/block_5.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block6', 'static/image/block_6.png', config.block_image_width, config.block_image_height);
-    game1.load.spritesheet('block7', 'static/image/block_7.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block1', '/static/image/block_1.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block2', '/static/image/block_2.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block3', '/static/image/block_3.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block4', '/static/image/block_4.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block5', '/static/image/block_5.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block6', '/static/image/block_6.png', config.block_image_width, config.block_image_height);
+    game1.load.spritesheet('block7', '/static/image/block_7.png', config.block_image_width, config.block_image_height);
 
 }
 
 function preload2() {
 
-    game2.load.spritesheet('block1', 'static/image/block_1.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block2', 'static/image/block_2.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block3', 'static/image/block_3.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block4', 'static/image/block_4.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block5', 'static/image/block_5.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block6', 'static/image/block_6.png', config.block_image_width, config.block_image_height);
-    game2.load.spritesheet('block7', 'static/image/block_7.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block1', '/static/image/block_1.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block2', '/static/image/block_2.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block3', '/static/image/block_3.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block4', '/static/image/block_4.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block5', '/static/image/block_5.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block6', '/static/image/block_6.png', config.block_image_width, config.block_image_height);
+    game2.load.spritesheet('block7', '/static/image/block_7.png', config.block_image_width, config.block_image_height);
 
 }
 

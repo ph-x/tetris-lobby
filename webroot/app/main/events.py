@@ -2,7 +2,7 @@ import json
 from . import lobby
 from app.tetrisLogic import tetris_logic
 from flask import request
-from flask_socketio import join_room, rooms
+from flask_socketio import join_room, rooms, leave_room
 from flask_login import current_user
 from .. import socketio
 
@@ -33,12 +33,13 @@ def on_enter_lobby():
 
 @socketio.on('join', namespace='/game')
 def on_join(data):
+    # data = json.loads(data)
     # create new room when
     room_id = data['room']
     crsid = request.sid
     # attemp to join a match
     try:
-        lobby.join_match(pid=request.sid, match_id=room_id)
+        lobby.join_match(sid=request.sid, match_id=int(room_id))
     except lobby.JoinFailureError:
         return_data = {}
         return_data['err_msg'] = 'join failed due to some reason'
@@ -64,7 +65,7 @@ def leave_game():
     crsid = request.sid
     username = crsid
     try:
-        room_id = lobby.uid_match[username]
+        room_id = lobby.sid_match[username]
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a game'.format(username))
@@ -92,9 +93,10 @@ def on_disconnect():
 
 @socketio.on('chat_msg', namespace='/game')
 def chat(data):
+    # data = json.loads(data)
     crsid = request.sid
     room_list = rooms()
-    data['player'] = crsid
+    data['player'] = current_user.username
     for room in room_list:
         socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/game')
 
@@ -103,10 +105,14 @@ def chat(data):
 # and this seems the only way to do it, maybe assign the two message with one namespace '/chat' is a better idea, but this takes one additional socket
 @socketio.on('chat_msg', namespace='/lobby_event')
 def chat_copy(data):
+    # data = json.loads(data)
+    print(data)
+    # print(json.loads(data))
     crsid = request.sid
     room_list = rooms()
     print(room_list)
-    data['player'] = crsid
+    data['player'] = current_user.username
+    print('------', json.dumps(data))
     for room in room_list:
         socketio.emit('chat_msg', json.dumps(data), room=room, namespace='/lobby_event')
 
@@ -132,7 +138,7 @@ def start_game(room_id):
 def on_ready():
     crsid = request.sid
     try:
-        room_id = lobby.uid_match[crsid]
+        room_id = lobby.sid_match[crsid]
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a room'.format(crsid))
@@ -149,9 +155,10 @@ def on_ready():
 
 @socketio.on('operate', namespace='/game')
 def operate_game(data):
+    # data = json.loads(data)
     crsid = request.sid
     try:
-        room_id = lobby.uid_match[crsid]
+        room_id = lobby.sid_match[crsid]
         room_info = match_rminfo[room_id]
     except KeyError:
         raise RuntimeError('user {} is not in a room'.format(crsid))
