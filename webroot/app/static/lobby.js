@@ -1,7 +1,7 @@
 //////////////////
 // socket
 
-var socket = io.connect("ws://127.0.0.1:8080/lobby");
+var socket = io.connect("ws://127.0.0.1:8080/lobby_event");
 
 // when connected, request user info (I'd prefer server send it without request)
 socket.on("connect", function (){
@@ -43,7 +43,13 @@ socket.on("room_list", function (data){
     data = JSON.parse(data);
     var rooms = data['room_list'];
     // remove current room list
+    var room_list = document.getElementById("rooms");
+    while(room_list.hasChildNodes())
+    {  
+        room_list.removeChild(room_list.firstChild);  
+    } 
     // append new room list
+    
 });
 
 // chat msg received
