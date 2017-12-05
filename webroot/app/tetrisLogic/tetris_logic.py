@@ -171,9 +171,9 @@ class Tetris:
                 data = {'bitmap': (picture[0:-1, 1:-1].tolist())}
                 for psid in self.room_info.players:
                     if psid is self.sid:
-                        data['player'] = 'left'
+                        data['player'] = 'self'
                     else:
-                        data['player'] = 'right'
+                        data['player'] = 'other'
                     self.room_info.socket_out.emit('game_msg', json.dumps(data), room=psid, namespace='/game')
             else:
                 time.sleep(0.01)

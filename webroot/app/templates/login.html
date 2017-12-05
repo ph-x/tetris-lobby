@@ -13,16 +13,11 @@
 	<img src="/static/image/login_ico.png" width="500">
 </div>
 
-{% block content %}
-<div class="alert">
-    {% for message in get_flashed_messages() %}
-    <div class="alert alert-warning">
-        <button type="button" class="close" data-dismiss="alert">&times;</button>
-        {{ message }}
-    </div>
-    {% endfor %}
-</div>
-{% endblock %}
+{% for message in get_flashed_messages() %}
+	<ul class="alert">
+		<li>{{ message }}</li>
+	</ul>
+{% endfor %}
 
 <div id="box">
 	<div id="user">
