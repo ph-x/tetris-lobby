@@ -13,7 +13,12 @@
 	<img src="image/login_ico.png" width="500">
 </div>
 
-<p id="errmsg"> error msg </p>
+{% for message in get_flashed_messages() %}
+	<ul class="flash">
+		<li>{{ message }}</li>
+	</ul>
+{% endfor %}
+
 <div id="box">
 	<div id="user">
 		<label for="username">Username</label>
