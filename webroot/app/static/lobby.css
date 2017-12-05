@@ -200,10 +200,10 @@ html {
 #msg-area {
 	height: 185px;
 	margin: 0 10px;
-	padding-top: 10px;
-	padding-left: 10px;
-	padding-right: 5px;
-	padding-bottom: 5px;
+	padding-top: 12px;
+	padding-left: 12px;
+	padding-right: 7px;
+	padding-bottom: 7px;
 	background-image: url(/static/image/msgbox.png);
 	background-size: 100% 100%;
 	background-repeat: no-repeat;
@@ -265,7 +265,7 @@ html {
 	border: hidden;
 	background: transparent;
 	outline: none;
-	margin-left: 5px;
+	margin-left: 8px;
 	width: calc(100% - 5px);
 	height: calc(100% - 5px);
 	font-family: "Comic Sans MS", cursive, sans-serif;
