@@ -35,10 +35,14 @@ def on_enter_lobby():
     join_room(0)
     data = lobby.get_room_list()
     socketio.emit('room_list', json.dumps(data), room=0, namespace='/lobby_event')
+    lobby.add_to_plist(current_user.username)
+    data = lobby.get_plist()
+    socketio.emit('player_list', json.dumps(data), room=0, namespace='/lobby_event')
 
 @socketio.on('disconnect', namespace='/lobby_event')
 def on_leave_lobby():
     print('leave_lobby')
+    lobby.remove_from_plist(current_user.username)
     leave_room(0)
 
 

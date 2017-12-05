@@ -5,6 +5,7 @@ var socket = io.connect("ws://127.0.0.1:8080/lobby_event");
 
 // update player list
 socket.on("player_list", function (data){
+    console.log("player_list receive: " + data);
     data = JSON.parse(data);
     var players = data;
 
@@ -18,7 +19,8 @@ socket.on("player_list", function (data){
     // append new player list
     for(var i = 0; i < players.length; i++){
         var player_info = document.createElement("LI");
-        var textnode = document.createTextNode(players[i]['player']);
+        var textnode = document.createTextNode(players[i]);
+        console.log(i + " th player is " + players[i]);
         player_info.appendChild(textnode);
     	player_list.appendChild(player_info);
     }
