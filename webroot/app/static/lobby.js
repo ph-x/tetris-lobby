@@ -26,9 +26,11 @@ socket.on("player_list", function (data){
 
 // update room list
 socket.on("room_list", function (data){
+    console.log("receive room_list signal");
     data = JSON.parse(data);
     var rooms = data;
     // remove current room list
+    console.log("room_list: " + data);
     var room_list = document.getElementById("rooms");
     while(room_list.hasChildNodes())
     {  
@@ -52,7 +54,7 @@ socket.on("room_list", function (data){
         var player2_info = rooms[i]['player2'];
         var player1_node = document.createElement("P");
         //player1_node.innerHTML = player1_info;
-        var textnode = document.createTextNode(players1_info);
+        var textnode = document.createTextNode(player1_info);
         player1_node.appendChild(textnode);
         var player2_node = document.createElement("P");
         //player2_node.innerHTML = player2_info;
@@ -68,7 +70,13 @@ socket.on("room_list", function (data){
     // bind onclick events on buttons
     var room_buttons = document.getElementsByClassName("room_button");
     for(var i = 0; i < room_buttons.length; i++){
-        room_buttons[i].onclick = "{location.href='/match/" + room_id_list[i] + "'}";
+        console.log(i +" th button binding......");
+        room_buttons[i].onclick = function(){
+            console.log(i + " th button clicked");
+            console.log("room id is " + room_id_list[i]);
+            //window.location.href = "/match/" + room_id_list[i];
+        };
+        console.log("{location.href='/match/" + room_id_list[i] + "'}");
     }
 });
 
