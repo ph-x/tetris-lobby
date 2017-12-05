@@ -55,6 +55,7 @@ server {
 		proxy_set_header Host $host:8080;
 		keepalive_timeout 1;
 	}
+
 	location /socket.io {
         include proxy_params;
         proxy_http_version 1.1;
@@ -63,6 +64,11 @@ server {
         proxy_set_header Connection "Upgrade";
         proxy_pass http://127.0.0.1:5000/socket.io;
     }
+
+    location /static {
+        alias /home/ubuntu/project/webroot/app/static;
+    }
+
 	# location / { try_files $uri @myweb; }
 	# location @myweb {
 	#   include uwsgi_params;

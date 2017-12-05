@@ -51,19 +51,9 @@ execute "start_redis" do
 	command "redis-server &"
 end
 
-# # setup WSGI
-# execute "install_uwsgi" do
-# 	command "pip3 install uwsgi"
-# end
-# cookbook_file "rc.local" do
-# 	path "/etc/rc.local"
-# end
-# execute "start-uwsgi" do
-# 	command "bash /etc/rc.local"
-# end
-
-# setup gunicorn
-# execute "setup_gunicorn" do
-# 	command "gunicorn -b 127.0.0.1:5000 --worker-class eventlet -w 1 tetrisApp:app &"
-# 	cwd "/home/ubuntu/project/webroot"
-# end
+# start service
+execute "start_service" do
+    user "ubuntu"
+    command "python3 manage.py &"
+    cwd "/home/ubuntu/project/webroot"
+end

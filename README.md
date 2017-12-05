@@ -10,7 +10,9 @@ You can play by open two DIFFERENT browsers, create several different accounts a
 
 As suggested in Flask documentation, we choose eventlet to serve as websocket transporter and WSGI server.
 
-Also, we apply CSRF method and enough authorization to achieve security. But we do NOT avoid entering room by URL if available, since we will check its legality first.
+We apply CSRF token and enough authorization to achieve security. Also, we escape all input to avoid SQL Injection and Cross-Site Scripting. But we do NOT avoid entering room by URL if available, since we will check its legality first.
+
+We use Nginx to serve static files and proxy socket connection.
 
 # Spotlights:
 1. Multiple threads and message queue for sending instructions
