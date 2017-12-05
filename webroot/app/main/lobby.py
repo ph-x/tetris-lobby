@@ -103,7 +103,7 @@ def join_match(match_id, sid):
                      'player2': v.player2,
                      'match_id': k}
                     for k, v in match_players.items()]
-            socketio.emit('room_list', json.dumps(data), namespace='lobby_event')
+            socketio.emit('room_list', json.dumps(data), namespace='/lobby_event')
 
 
 def leave_match(sid):
@@ -123,7 +123,7 @@ def leave_match(sid):
                      'player2': v.player2,
                      'match_id': k}
                     for k, v in match_players.items()]
-            socketio.emit('room_list', json.dumps(data), namespace='lobby_event')
+            socketio.emit('room_list', json.dumps(data), namespace='/lobby_event')
 
 
 def all_matches():
@@ -139,8 +139,8 @@ def match_for(sid):
         return sid_match[sid]
 
 
-@socketio.on('create', namespace='lobby_event')
+@socketio.on('create', namespace='/lobby_event')
 def on_create():
     match_id = alloc_match_id()
     print('new match id {} allocated'.format(match_id))
-    socketio.emit('create_res', json.dumps({'match_id': match_id}), namespace='lobby_event')
+    socketio.emit('create_res', json.dumps({'match_id': match_id}), namespace='/lobby_event')
