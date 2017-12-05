@@ -136,7 +136,7 @@ def join_match(match_id, sid):
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
-                          room=request.sid)
+                          room=0)
 
 
 def leave_match(sid):
@@ -164,7 +164,7 @@ def leave_match(sid):
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
-                          room=request.sid)
+                          room=0)
 
 
 def all_matches():
