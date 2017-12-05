@@ -16,6 +16,24 @@ reserved_rooms = {x: i for i, x in enumerate(reserved_rooms)}
 id_lock = threading.Lock()  # guards the match id
 next_match = len(reserved_rooms)
 
+plist_lock = threading.Lock()  # guards the player list
+plist = set()
+
+
+def add_to_plist(username):
+    with plist_lock:
+        plist.add(username)
+
+
+def remove_from_plist(username):
+    with plist_lock:
+        plist.remove(username)
+
+
+def get_plist():
+    with plist_lock:
+        return list(plist)
+
 
 class JoinFailureError(Exception):
     pass
@@ -58,7 +76,7 @@ class Match:
         return self.player1 == username or self.player2 == username
 
     def __repr__(self):
-        return 'Player({}, {})'.format(self.player1, self.player2)
+        return 'Match({}, {})'.format(self.player1, self.player2)
 
 
 def alloc_match_id():
@@ -107,16 +125,18 @@ def join_match(match_id, sid):
             join_room(match_id, sid)  # todo: can be lifted out of locked region
             sid_match[sid] = match_id
             match_players[match_id].add(current_user.username)
+        finally:
             data = [{'player1': v.player1,
                      'player2': v.player2,
                      'match_id': k}
                     for k, v in match_players.items()]
             print(sid_match)
             print(match_players)
+            print(data)
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
-                          room=request.sid)
+                          room=0)
 
 
 def leave_match(sid):
@@ -140,10 +160,11 @@ def leave_match(sid):
                     for k, v in match_players.items()]
             print(sid_match)
             print(match_players)
+            print(data)
             socketio.emit('room_list',
                           json.dumps(data),
                           namespace='/lobby_event',
-                          room=request.sid)
+                          room=0)
 
 
 def all_matches():
