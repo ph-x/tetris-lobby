@@ -18,7 +18,8 @@ socket.on("player_list", function (data){
     // append new player list
     for(var i = 0; i < players.length; i++){
         var player_info = document.createElement("LI");
-    	player_info.innterHTML = players[i]['player'];
+        var textnode = document.createTextNode(players[i]['player']);
+        player_info.appendChild(textnode);
     	player_list.appendChild(player_info);
     }
 });
@@ -50,9 +51,13 @@ socket.on("room_list", function (data){
         var player1_info = rooms[i]['player1'];
         var player2_info = rooms[i]['player2'];
         var player1_node = document.createElement("P");
-        player1_node.innterHTML = player1_info;
+        //player1_node.innerHTML = player1_info;
+        var textnode = document.createTextNode(players1_info);
+        player1_node.appendChild(textnode);
         var player2_node = document.createElement("P");
-        player2_node.innterHTML = player2_info;
+        //player2_node.innerHTML = player2_info;
+        textnode = document.createTextNode(player2_info);
+        player2_node.appendChild(textnode);
 
         room_button.appendChild(player1_node);
         room_button.appendChild(player2_node);
@@ -72,19 +77,24 @@ socket.on("chat_msg", function (data){
 	data = JSON.parse(data);
     var player = data['player'];
     var msg = data['message'];
+    var textnode; 
 
     // make a LI element
     var msg_node = document.createElement("LI");
 
     var player_info = document.createElement("P");
     player_info.class = "player";
-    player_info.innterHTML = player + ":";
-    console.log("player_node: " + player_info.innterHTML);
+    //player_info.innerHTML = player + ":";
+    textnode = document.createTextNode(player + ":");
+    player_info.appendChild(textnode);
+    console.log("player_node: " + player_info.innerHTML);
 
     var msg_info = document.createElement("P");
     msg_info.class = "content";
-    msg_info.innterHTML = msg;
-    console.log("msg_node: " + msg_info.innterHTML);
+    //msg_info.innerHTML = msg;
+    textnode = document.createTextNode(msg);
+    msg_node.appendChild(textnode);
+    console.log("msg_node: " + msg_info.innerHTML);
 
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
