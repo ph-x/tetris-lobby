@@ -20,9 +20,9 @@ var config = {
 var socket = io.connect("127.0.0.1:8080/game");
 
 // room_id is the last part of URL: room_id == window.location.search
-// socket.emit("join", {"room" : window.location.search});
-socket.emit("join", {"room" : '1'});
-
+var the_room_id = window.location.href.split("/")[2];
+console.log("room_id is " + the_room_id);
+socket.emit("join", {"room" : the_room_id});
 
 // cannot join room
 socket.on("join_failure", function (data){
@@ -114,13 +114,13 @@ socket.on("chat_msg", function (data){
     var msg = data['message'];
 
     // make a LI element
-    var msg_node = document.createElement("li");
+    var msg_node = document.createElement("LI");
 
-    var player_info = document.createElement("p");
+    var player_info = document.createElement("P");
     player_info.class = "player";
     player_info.innterHTML = msg + ":";
 
-    var msg_info = document.createElement("p");
+    var msg_info = document.createElement("P");
     msg_info.class = "content";
     msg_info.innterHTML = msg;
 
@@ -146,8 +146,8 @@ socket.on("player_update", function (data){
     document.getElementById("user-info-2").removeChild(document.getElementById("user-info-2").firstChild);
 
     // make P elements
-    var player1_node = document.createElement("p");
-    var player2_node = document.createElement("p");
+    var player1_node = document.createElement("P");
+    var player2_node = document.createElement("P");
     player1_node.innterHTML = player1_info;
     player2_node.innterHTML = player2_info;
 

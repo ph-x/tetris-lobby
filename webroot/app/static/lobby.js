@@ -17,7 +17,7 @@ socket.on("player_list", function (data){
 
     // append new player list
     for(var i = 0; i < players.length; i++){
-        var player_info = document.createElement("li");
+        var player_info = document.createElement("LI");
     	player_info.innterHTML = players[i]['player'];
     	player_list.appendChild(player_info);
     }
@@ -42,16 +42,16 @@ socket.on("room_list", function (data){
 
         // create DOM elements and append it to html
 
-        var room_info = document.createElement("li");
-        var room_button = document.createElement("button");
+        var room_info = document.createElement("LI");
+        var room_button = document.createElement("BUTTON");
         room_button.type = "button";
         room_button.class = "room_button";
 
         var player1_info = rooms[i]['player1'];
         var player2_info = rooms[i]['player2'];
-        var player1_node = document.createElement("p");
+        var player1_node = document.createElement("P");
         player1_node.innterHTML = player1_info;
-        var player2_node = document.createElement("p");
+        var player2_node = document.createElement("P");
         player2_node.innterHTML = player2_info;
 
         room_button.appendChild(player1_node);
@@ -73,17 +73,18 @@ socket.on("chat_msg", function (data){
     var player = data['player'];
     var msg = data['message'];
 
-    console.log(player + msg);
     // make a LI element
-    var msg_node = document.createElement("li");
+    var msg_node = document.createElement("LI");
 
-    var player_info = document.createElement("p");
+    var player_info = document.createElement("P");
     player_info.class = "player";
     player_info.innterHTML = player + ":";
+    console.log("player_node: " + player_info.innterHTML);
 
-    var msg_info = document.createElement("p");
+    var msg_info = document.createElement("P");
     msg_info.class = "content";
     msg_info.innterHTML = msg;
+    console.log("msg_node: " + msg_info.innterHTML);
 
     msg_node.appendChild(player_info);
     msg_node.appendChild(msg_info);
