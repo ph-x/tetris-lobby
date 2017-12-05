@@ -17,3 +17,4 @@ eventlet==0.21.0
 Flask-SocketIO==2.9.2
 numpy==1.13.1
 redis==2.10.6
+psycopg2==2.7.3.2
