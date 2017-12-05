@@ -18,10 +18,18 @@ var config = {
 // socket
 
 var socket = io.connect("127.0.0.1:8080/game");
-// var socket = io.connect("http://127.0.0.1:5000/game");
 
-// TODO: room_id
-socket.emit("join", {"room" : 0});
+// room_id is the last part of URL: room_id == window.location.search
+socket.emit("join", {"room" : window.location.search});
+
+// cannot join room
+socket.on("join_failure", function (data){
+    data = JSON.parse(data);
+    var err_msg = data['err_msg'];
+    alert(err_msg);
+    // a static url, need to be modified if url changed in server side
+    window.location.href = "/lobby";
+});
 
 // game_status: 0 -- end, 1 -- start
 var game_status = 0;
@@ -74,7 +82,6 @@ socket.on("game_status", function (data){
 
 // ready button
 document.getElementById("game-ready").onclick = function(){
-    // debug
     socket.emit("ready");
 };
 
