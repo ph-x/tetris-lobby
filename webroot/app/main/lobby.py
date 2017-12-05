@@ -106,6 +106,7 @@ def join_match(match_id, sid):
                 raise JoinFailureError('match {} is full'.format(match_id))
             join_room(match_id, sid)  # todo: can be lifted out of locked region
             sid_match[sid] = match_id
+            match_players[match_id].add(current_user.username)
             data = [{'player1': v.player1,
                      'player2': v.player2,
                      'match_id': k}

@@ -23,7 +23,7 @@ def player_update(room_info):
         player_name = 'player' + str(pid)
         data[player_name] = player.username
         pid = pid + 1
-    socketio.emit('game_status', json.dumps(data), room=room_info.room_id, namespace='/game')
+    socketio.emit('player_update', json.dumps(data), room=room_info.room_id, namespace='/game')
 
 
 @socketio.on('connect', namespace='/lobby_event')
@@ -48,18 +48,20 @@ def on_join(data):
     # join message broadcast room
     join_room(room_id)
     # add the player to detail room info, if room info does not exist, create one
-    if room_id not in match_rminfo:
+    if int(room_id) not in match_rminfo:
         match_rminfo[int(room_id)] = tetris_logic.RoomInfo(room_id)
     room_info = match_rminfo[int(room_id)]
     sid = request.sid
     current_player = tetris_logic.Player(sid=sid, username=crsid)
     current_player.opponent = None
+    print("room_info.players", room_info.players)
     for psid in room_info.players:
         current_player.opponent = room_info.players[psid]
         room_info.players[psid].opponent = current_player
+
     room_info.players[sid] = current_player
+    print("join", sid)
     player_update(room_info)
-    print('join', )
 
 
 def leave_game():
@@ -147,6 +149,8 @@ def on_ready():
     # block ready message when game is on
     if room_info.game_status is 'on':
         return
+    print('request_sid', request.sid)
+    print('room_info.players', room_info.players)
     if request.sid in room_info.players:
         player = room_info.players[request.sid]
         player.ready()
