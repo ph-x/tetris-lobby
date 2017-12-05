@@ -213,16 +213,16 @@ function create1() {
 
     // guarantee at least 1 action per operate
     cursors.left.onDown.add(function(){
-        socket.emit("operate", {"instrcution": "left"});
+        socket.emit("operate", {"instruction": "left"});
     });
     cursors.right.onDown.add(function(){
-        socket.emit("operate", {"instrcution": "right"});
+        socket.emit("operate", {"instruction": "right"});
     });
     cursors.up.onDown.add(function(){
-        socket.emit("operate", {"instrcution": "up"});
+        socket.emit("operate", {"instruction": "up"});
     });
     cursors.down.onDown.add(function(){
-        socket.emit("operate", {"instrcution": "down"});
+        socket.emit("operate", {"instruction": "down"});
     });
 
     // eliminate key counter when key is up
@@ -260,7 +260,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", {"instrcution": "left"});
+                socket.emit("operate", {"instruction": "left"});
             }
         }
     }
@@ -270,7 +270,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", {"instrcution": "right"});
+                socket.emit("operate", {"instruction": "right"});
             }
         }
     }
@@ -280,7 +280,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", {"instrcution": "up"});
+                socket.emit("operate", {"instruction": "up"});
             }
         }
     }
@@ -290,7 +290,7 @@ function update1() {
             key_cumulate++;
             if(key_cumulate > config.key_sensitivity){
                 key_cumulate -= config.key_sensitivity;
-                socket.emit("operate", {"instrcution": "down"});
+                socket.emit("operate", {"instruction": "down"});
             }
         }
     }
