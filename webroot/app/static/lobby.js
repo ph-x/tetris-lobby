@@ -50,6 +50,9 @@ socket.on("room_list", function (data){
 
         var player1_info = rooms[i]['player1'];
         var player2_info = rooms[i]['player2'];
+        if (player2_info == null) {
+            player2_info = "\0";
+        }
         var player1_node = document.createElement("P");
         //player1_node.innerHTML = player1_info;
         var textnode = document.createTextNode(player1_info);

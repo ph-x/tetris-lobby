@@ -168,7 +168,7 @@ socket.on("player_update", function (data){
     var player1_info = data['player1'];
     var player2_info = data['player2'];
     if (player2_info == 0){
-        player2_info = "None";
+        player2_info = "";
     }
 
     // remove elements from info area
