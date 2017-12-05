@@ -86,6 +86,22 @@ document.getElementById("game-ready").onclick = function(){
     socket.emit("ready");
 };
 
+socket.on("ready", function (data){
+    data = JSON.parse(data);
+    var ready_status = data['status'];
+    console.log(ready_status);
+
+    var btn_img = document.getElementById("ready-img");
+    if(ready_status) {
+        // in ready
+        btn_img.src = "/static/image/_ready.png";
+    }
+    else {
+        // not in ready
+        btn_img.src = "/static/image/ready.png";
+    }
+});
+
 //chat input hotkey (enter)
 document.getElementById("chat-box").firstElementChild.onkeydown = function(e){
     if (e.keyCode == 13) {
