@@ -149,9 +149,9 @@ class Tetris:
             self.room_info.players[psid].is_ready = False
             data = {'action': 'end'}
             if psid is self.sid:
-                data['loser'] = 'left'
+                data['loser'] = 'self'
             else:
-                data['loser'] = 'right'
+                data['loser'] = 'other'
             self.room_info.socket_out.emit('game_status', json.dumps(data), room=psid, namespace='/game')
             self.room_info.game = {}
 
