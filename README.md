@@ -1,4 +1,4 @@
-# What's the project:
+# What is this project:
 This project is an online game lobby with Tetris game based on a Python webframework [Flask] (http://flask.pocoo.org/) and an extension [Flask-socketIO] (https://flask-socketio.readthedocs.io/en/latest/). 
 
 # How to start:
