@@ -2,7 +2,7 @@
 This project is an online game lobby with Tetris game based on a Python webframework [Flask] (http://flask.pocoo.org/) and an extension [Flask-socketIO] (https://flask-socketio.readthedocs.io/en/latest/). 
 
 # How to start:
-In the project's root directory, run 'vagrant up' to start the virtual machine. You may need to download Vagrant and VirtualBox. Running 'vagrant up' for the first time may take a few minutes, be patient. For more information about vagrant, see [Vagrant Introduction] (https://www.vagrantup.com/intro/index.html).  
+In the project's root directory, run 'vagrant up' to start the virtual machine. You may need to download Vagrant and VirtualBox. Running 'vagrant up' for the first time may take a few minutes, be patient. For more information about vagrant, see [Vagrant Introduction](https://www.vagrantup.com/intro/index.html).  
 
 Service will start at port 8080. You can access it with the ip address of localhost either on a same computer, or on other computers if you want.  
 
